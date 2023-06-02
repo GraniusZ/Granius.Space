@@ -99,8 +99,9 @@ export const LoginForm: FC = () => {
                             ) : (
                                 <div className="w-full h-full justify-center items-center flex">
                                     <Spinner/>
-                                </div>
-                            )}
+                                </div>)
+                            }
+
                         </div>
                     </button>
                 </div>

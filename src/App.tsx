@@ -23,12 +23,11 @@ function App() {
                     );
                 }
                 setLoading(false);
-
             }),
         [dispatch]
     );
     if (loading) {
-        return <Layout/>
+        return <Layout loading={loading}/>
     }
     return (
         <>
