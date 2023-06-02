@@ -1,6 +1,6 @@
-import { auth } from "@/config/firebase";
-import {User}from "types/UserType.ts"
-export const useIsAuth = ():boolean => {
-  const user:User = auth.currentUser;
+import {useAppSelector} from "@hooks/useTypedSelector.ts";
+
+export const useIsAuth = (): boolean => {
+  const user = useAppSelector((state) => state.user.user)
   return user != null;
 };

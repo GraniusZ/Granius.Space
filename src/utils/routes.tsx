@@ -2,24 +2,26 @@ import {createBrowserRouter} from "react-router-dom";
 import {Home} from "@pages/Home/Home.tsx";
 import {Login} from "@pages/Login/Login.tsx";
 import {Register} from "@pages/Register/Register.tsx";
-import {AuthLayout} from "@modules/AuthLayout/components/AuthLayout.tsx";
+import {Layout} from "@modules/Layout/components/Layout.tsx";
+import {NotFound} from "@pages/NotFound/NotFound.tsx";
 
 
 export const routes = createBrowserRouter([
     {
         path: "/",
+        element: <Layout/>,
         children: [
             {
                 index:true,
                 element:<Home/>
             },
             {
-                element: <AuthLayout/>,
+                element: <Layout/>,
                 children:[
                     {
 
                         path: "login",
-                        element: <Login />,
+                        element: <Login/>,
 
                     },
                     {
@@ -29,7 +31,10 @@ export const routes = createBrowserRouter([
                     },
                 ]
             },
-
+            {
+                path: "*",
+                element: <NotFound/>,
+            }
         ],
     },
 ]);

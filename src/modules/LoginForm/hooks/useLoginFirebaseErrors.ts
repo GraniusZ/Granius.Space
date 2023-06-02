@@ -1,5 +1,7 @@
+import {FirebaseError} from "types/FirebaseErrorType.ts";
+
 export const useLoginFirebaseErrors = () => {
-  const firebaseError = (error: { code: string }): string => {
+  const firebaseError = (error: FirebaseError): string => {
     switch (error.code) {
       case "auth/wrong-password":
         return "Wrong password";

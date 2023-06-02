@@ -1,1 +1,5 @@
-export type { User } from "firebase/auth";
+export type User = {
+    displayName: string | null,
+    email: string | null,
+    uid: string,
+}

@@ -26,13 +26,12 @@ export const LoginForm: FC = () => {
     return (
         <div className="w-full h-full flex justify-center items-center font-mono mx-6">
             <form
-                className="m-auto max-w-2xl w-full flex items-center justify-center flex-col bg-1 rounded-xl px-8 py-5"
+                className="m-auto max-w-2xl w-full flex items-center justify-center flex-col bg-1 rounded-xl px-8 py-5 "
                 onSubmit={handleSubmit(handleLogin)}>
                 <label className="text-4 text-5xl mb-6">Sign in</label>
                 <div className="w-full mb-4 gap-3 flex-col">
                     <input
-                        style={{border: errors.email && "1px solid red"}}
-                        className="bg-2 w-full text-4  text-2xl px-5 py-3 rounded-lg placeholder:text-4 box-border"
+                        className={`bg-2 w-full text-4 text-2xl px-5 py-3 rounded-lg placeholder:text-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
                         placeholder={"Email"}
                         type={"email"}
                         {...register("email", {
@@ -53,8 +52,7 @@ export const LoginForm: FC = () => {
                 </div>
                 <div className="w-full mb-5 gap-3 flex-col">
                     <input
-                        style={{border: errors.password && "1px solid red"}}
-                        className="bg-2 w-full text-4  text-2xl px-5 py-3 rounded-lg placeholder:text-4 box-border"
+                        className={`bg-2 w-full text-4  text-2xl px-5 py-3 rounded-lg placeholder:text-4 box-border border ${errors.password ? 'border-red-500' : ''}`}
                         type={"password"}
                         placeholder={"Password"}
                         {...register("password", {

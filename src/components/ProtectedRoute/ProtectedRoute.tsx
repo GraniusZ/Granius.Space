@@ -1,15 +1,17 @@
 import {FC, ReactElement, ReactNode} from "react";
-import {useIsAuth} from "@hooks/useIsAuth.ts";
 import {Navigate} from "react-router-dom";
+import {useIsAuth} from "@hooks/useIsAuth.ts";
 
 interface ProtectedRouteProps {
     children: ReactNode;
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({children}: ProtectedRouteProps): ReactElement => {
-    const isAuth: boolean = useIsAuth();
 
-    if (!isAuth) {
+    const isLogged: boolean = useIsAuth()
+
+
+    if (!isLogged) {
         return <Navigate to="/login"/>;
     }
 

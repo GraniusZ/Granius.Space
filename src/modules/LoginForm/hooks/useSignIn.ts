@@ -34,7 +34,9 @@ export const useSignIn = () => {
             .then((userAuth) => {
               dispatch(
                 login({
-                    ...userAuth.user
+                    email: userAuth.user.email,
+                    uid: userAuth.user.uid,
+                    displayName: userAuth.user.displayName,
                 })
               );
               dispatch(setLoading(false));

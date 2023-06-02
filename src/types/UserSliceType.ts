@@ -1,5 +1,6 @@
-import { User as FirebaseUser } from "firebase/auth";
+import {User} from "types/UserType.ts";
+
 export type UserSliceType ={
-    user: FirebaseUser | null,
+    user: User | null,
     loading: boolean
 }
