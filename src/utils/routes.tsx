@@ -7,6 +7,7 @@ import {NotFound} from "@pages/NotFound/NotFound.tsx";
 
 
 export const routes = createBrowserRouter([
+
     {
         path: "/",
         element: <Layout/>,
@@ -15,26 +16,23 @@ export const routes = createBrowserRouter([
                 index:true,
                 element:<Home/>
             },
+
             {
-                element: <Layout/>,
-                children:[
-                    {
 
-                        path: "login",
-                        element: <Login/>,
+                path: "login",
+                element: <Login/>,
 
-                    },
-                    {
-                        path: "register",
-                        element: <Register/>,
+            },
+            {
+                path: "register",
+                element: <Register/>,
 
-                    },
-                ]
             },
             {
                 path: "*",
                 element: <NotFound/>,
-            }
+            },
+
         ],
     },
 ]);
