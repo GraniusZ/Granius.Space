@@ -1,6 +1,7 @@
 import {FC} from "react";
 import {ProtectedRoute} from "@components/ProtectedRoute/ProtectedRoute.tsx";
 import {usePageTitle} from "@hooks/usePageTitle";
+import {Board} from "@modules/Board";
 
 
 export const Home: FC = () => {
@@ -8,7 +9,7 @@ export const Home: FC = () => {
     return (
         <>
             <ProtectedRoute>
-                <div></div>
+                <Board/>
             </ProtectedRoute>
         </>
     );
