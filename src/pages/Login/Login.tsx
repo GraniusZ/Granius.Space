@@ -7,9 +7,10 @@ import {useIsAuth} from "@hooks/useIsAuth.ts";
 export const Login: FC = () => {
     const isAuth = useIsAuth();
     usePageTitle("Login");
+    if (document.referrer === "" && isAuth) {
+        return <AuthWarning/>;
+    }
     return (
-        <>
-            {isAuth ? <AuthWarning/> :<LoginForm/> }
-        </>
+        <LoginForm/>
     );
 };

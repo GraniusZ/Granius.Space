@@ -19,16 +19,16 @@ export const RegisterForm = () => {
         <>
             <div className="w-full h-full flex justify-center items-center font-mono mx-6">
                 <form
-                    className="m-auto max-w-2xl w-full flex items-center justify-center flex-col bg-1 rounded-xl px-8 py-5"
+                    className="m-auto max-w-2xl w-full flex items-center justify-center flex-col bg-main-1 rounded-xl px-8 py-5"
                     onSubmit={handleSubmit(handleRegister)}
                     data-testid={"registerForm"}
 
                 >
-                    <label className="text-4 text-5xl mb-6">Sign up</label>
+                    <label className="text-main-4 text-5xl mb-6">Sign up</label>
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="off"
-                            className={`bg-2 w-full text-4 text-2xl px-5 py-3 rounded-lg placeholder:text-4 box-border border ${errors.firstName ? 'border-red-500' : ''} `}
+                            className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.firstName ? 'border-red-500' : ''} `}
                             type={"text"}
                             placeholder={"Name"}
                             {...register("firstName", {
@@ -43,15 +43,14 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.firstName && (
-                            <span className="text-3 text-xl">{errors.firstName.message}</span>
+                            <span className="text-main-3 text-xl">{errors.firstName.message}</span>
                         )}
                     </div>
 
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="off"
-                            className={`bg-2 w-full text-4 text-2xl px-5 py-3 rounded-lg placeholder:text-4 box-border border ${errors.secondName ? 'border-red-500' : ''} `}
-                            placeholder={"Surname"}
+                            className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.secondName ? 'border-red-500' : ''} `}                            placeholder={"Surname"}
                             type={"text"}
                             {...register("secondName", {
                                 required: {
@@ -65,15 +64,14 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.secondName && (
-                            <span className="text-3 text-xl">{errors.secondName.message}</span>
+                            <span className="text-main-3 text-xl">{errors.secondName.message}</span>
                         )}
                     </div>
 
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="new-email"
-                            className={`bg-2 w-full text-4 text-2xl px-5 py-3 rounded-lg placeholder:text-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
-                            placeholder={"Email"}
+                            className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}                            placeholder={"Email"}
                             type={"email"}
                             {...register("email", {
                                 required: {
@@ -88,15 +86,14 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.email && (
-                            <span className="text-3 text-xl">{errors.email.message}</span>
+                            <span className="text-main-3 text-xl">{errors.email.message}</span>
                         )}
                     </div>
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="new-password"
-                            className={`bg-2 w-full text-4 text-2xl px-5 py-3 rounded-lg placeholder:text-4 box-border border ${errors.password ? 'border-red-500' : ''} `}
+                            className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''} `}
                             type={"password"}
-
                             placeholder={"Password"}
                             {...register("password", {
                                 required: {
@@ -106,19 +103,19 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.password && (
-                            <span className="text-3 text-xl">{errors.password.message}</span>
+                            <span className="text-main-3 text-xl">{errors.password.message}</span>
                         )}
                     </div>
                     <div className="w-full mb-6 ">
                         {firebaseError && (
-                            <div className="text-3 text-xl">{firebaseError}</div>
+                            <div className="text-main-3 text-xl">{firebaseError}</div>
                         )}
-                        <button type={"submit"} className="w-full flex py-4 rounded-lg bg-2 max-h-14 justify-center items-center">
+                        <button type={"submit"} className="w-full flex py-4 rounded-lg bg-main-2 max-h-14 justify-center items-center mt-5">
                             <div className="w-full h-full">
                                 {!loading ? (
-                                    <div className="w-full h-full justify-center items-center gap-3 flex text-4 text-base">
+                                    <div className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-base">
                                         <span>Sign in</span>
-                                        <ArrowIcon/>
+                                        <ArrowIcon className="fill-main-4"/>
                                     </div>
                                 ) : (
                                     <div className="w-full h-full justify-center items-center flex">
@@ -129,9 +126,9 @@ export const RegisterForm = () => {
                         </button>
                     </div>
                     <div>
-            <span className="text-3">
+            <span className="text-main-3">
               Have account?
-              <Link to={"../login"} className="text-4">
+              <Link to={"../login"} className="text-main-4">
                 &nbsp;Sign In
               </Link>
             </span>
