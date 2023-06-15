@@ -24,11 +24,11 @@ export const RegisterForm = () => {
                     data-testid={"registerForm"}
 
                 >
-                    <label className="text-main-4 text-5xl mb-6">Sign up</label>
+                    <label className="text-main-4 md:text-5xl mb-3 sm:mb-6 text-3xl">Sign up</label>
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="off"
-                            className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.firstName ? 'border-red-500' : ''} `}
+                            className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.firstName ? 'border-red-500' : ''} `}
                             type={"text"}
                             placeholder={"Name"}
                             {...register("firstName", {
@@ -43,14 +43,15 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.firstName && (
-                            <span className="text-main-3 text-xl">{errors.firstName.message}</span>
+                            <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.firstName.message}</span>
                         )}
                     </div>
 
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="off"
-                            className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.secondName ? 'border-red-500' : ''} `}                            placeholder={"Surname"}
+                            className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.secondName ? 'border-red-500' : ''} `}
+                            placeholder={"Surname"}
                             type={"text"}
                             {...register("secondName", {
                                 required: {
@@ -64,14 +65,15 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.secondName && (
-                            <span className="text-main-3 text-xl">{errors.secondName.message}</span>
+                            <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.secondName.message}</span>
                         )}
                     </div>
 
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="new-email"
-                            className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}                            placeholder={"Email"}
+                            className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
+                            placeholder={"Email"}
                             type={"email"}
                             {...register("email", {
                                 required: {
@@ -86,13 +88,13 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.email && (
-                            <span className="text-main-3 text-xl">{errors.email.message}</span>
+                            <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.email.message}</span>
                         )}
                     </div>
-                    <div className="w-full mb-4 gap-3 flex-col">
+                    <div className="w-full mb-2 sm:mb-4 gap-3 flex-col">
                         <input
                             autoComplete="new-password"
-                            className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''} `}
+                            className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''} `}
                             type={"password"}
                             placeholder={"Password"}
                             {...register("password", {
@@ -103,17 +105,19 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.password && (
-                            <span className="text-main-3 text-xl">{errors.password.message}</span>
+                            <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.password.message}</span>
                         )}
                     </div>
-                    <div className="w-full mb-6 ">
+                    <div className="w-full mb-3 sm:mb-6 ">
                         {firebaseError && (
                             <div className="text-main-3 text-xl">{firebaseError}</div>
                         )}
-                        <button type={"submit"} className="w-full flex py-4 rounded-lg bg-main-2 max-h-14 justify-center items-center mt-5">
+                        <button type={"submit"}
+                                className="w-full flex py-4 rounded-lg bg-main-2 max-h-14 justify-center items-center mt-5">
                             <div className="w-full h-full">
                                 {!loading ? (
-                                    <div className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-base">
+                                    <div
+                                        className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-sm sm:text-base">
                                         <span>Sign in</span>
                                         <ArrowIcon className="fill-main-4"/>
                                     </div>
@@ -126,7 +130,7 @@ export const RegisterForm = () => {
                         </button>
                     </div>
                     <div>
-            <span className="text-main-3">
+            <span className="text-main-3 text-sm md:text-base">
               Have account?
               <Link to={"../login"} className="text-main-4">
                 &nbsp;Sign In

@@ -5,6 +5,6 @@ import {usePageTitle} from "@hooks/usePageTitle.ts";
 export const NotFound: FC = () => {
     usePageTitle("Not Found");
     return (
-<NotFoundLabel/>
+        <NotFoundLabel/>
     );
 };

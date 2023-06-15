@@ -28,10 +28,10 @@ export const LoginForm: FC = () => {
             <form
                 className="m-auto max-w-2xl w-full flex items-center justify-center flex-col bg-main-1 rounded-xl px-8 py-5 "
                 onSubmit={handleSubmit(handleLogin)}>
-                <label className="text-main-4 text-5xl mb-6">Sign in</label>
+                <label className="text-main-4 md:text-5xl mb-3 sm:mb-6 text-3xl">Sign in</label>
                 <div className="w-full mb-4 gap-3 flex-col">
                     <input
-                        className={`bg-main-2 w-full text-main-4 text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
+                        className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
                         placeholder={"Email"}
                         type={"email"}
                         {...register("email", {
@@ -47,12 +47,12 @@ export const LoginForm: FC = () => {
                         })}
                     />
                     {errors.email && (
-                        <span className="text-main-3 text-xl">{errors.email.message}</span>
+                        <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.email.message}</span>
                     )}
                 </div>
-                <div className="w-full mb-5 gap-3 flex-col">
+                <div className="w-full mb-3 sm:mb-5 gap-3 flex-col">
                     <input
-                        className={`bg-main-2 w-full text-main-4  text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''}`}
+                        className={`bg-main-2 w-full text-main-4  text-xl md:text-2xl  px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''}`}
                         type={"password"}
                         placeholder={"Password"}
                         {...register("password", {
@@ -63,36 +63,38 @@ export const LoginForm: FC = () => {
                         })}
                     />
                     {errors.password && (
-                        <span className="text-main-3 text-xl">{errors.password.message}</span>
+                        <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.password.message}</span>
                     )}
                 </div>
-                <div className="w-full flex flex-nowrap justify-between gap-8 text-lg text-main-3 mb-5">
-                    <div className="flex gap-2 items-center relative bg-transparent select-none ">
+                <div className="w-full inline-flex flex-nowrap justify-between gap-4  text-lg text-main-3 mb-3 sm:mb-5">
+                    <div className="flex-shrink-0 flex gap-2 items-center relative bg-transparent select-none">
                         <div
                             onClick={handleRememberMe}
-                            className={`w-5 h-5 cursor-pointer transition duration-200 ease-in-out ${rememberMe ? "bg-main-3" : "bg-main-4"}`}
+                            className={`w-5 h-5 w-min-5 h-min-5 transition duration-200 ease-in-out ${rememberMe ? "bg-main-3" : "bg-main-4"}`}
                         >
                             {rememberMe && (
                                 <CheckIcon className="w-5 h-5 fill-main-1"
                                 />
                             )}
                         </div>
-                        <span>
+                        <span className="text-sm md:text-base">
                 Remember me
               </span>
                     </div>
-                    <Link to={"/forget"}>
+                    <Link className="text-sm md:text-base text-end" to={"/forget"}>
                         Forget Password
                     </Link>
                 </div>
-                <div className="w-full mb-6 ">
+                <div className="w-full mb-3 sm:mb-6 ">
                     {firebaseError && (
-                        <div className="text-main-3 text-xl">{firebaseError}</div>
+                        <div className="text-main-3 text-sm md:text-xl">{firebaseError}</div>
                     )}
-                    <button type={"submit"} className="w-full flex py-4 rounded-lg bg-main-2 max-h-14 justify-center items-center">
+                    <button type={"submit"}
+                            className="w-full flex py-4 rounded-lg bg-main-2 max-h-14 justify-center items-center">
                         <div className="w-full h-full">
                             {!loading ? (
-                                <div className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-base">
+                                <div
+                                    className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-sm sm:text-base">
                                     <span>Sign in</span>
                                     <ArrowIcon className="fill-main-4"/>
                                 </div>
@@ -106,7 +108,7 @@ export const LoginForm: FC = () => {
                     </button>
                 </div>
                 <div>
-            <span className="text-main-3">
+            <span className="text-main-3 text-sm md:text-base">
               Don’t have account?
               <Link to={"../register"} className="text-main-4">
                 &nbsp;Sign Up
