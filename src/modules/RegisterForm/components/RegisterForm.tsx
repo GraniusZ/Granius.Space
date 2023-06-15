@@ -28,7 +28,7 @@ export const RegisterForm = () => {
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="off"
-                            className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.firstName ? 'border-red-500' : ''} `}
+                            className={`mb-1 bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.firstName ? 'border-red-500' : ''} `}
                             type={"text"}
                             placeholder={"Name"}
                             {...register("firstName", {
@@ -43,14 +43,14 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.firstName && (
-                            <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.firstName.message}</span>
+                            <span className="text-main-3 text-sm md:text-xl">{errors.firstName.message}</span>
                         )}
                     </div>
 
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="off"
-                            className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.secondName ? 'border-red-500' : ''} `}
+                            className={`mb-1 bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.secondName ? 'border-red-500' : ''} `}
                             placeholder={"Surname"}
                             type={"text"}
                             {...register("secondName", {
@@ -65,14 +65,14 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.secondName && (
-                            <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.secondName.message}</span>
+                            <span className="text-main-3 text-sm md:text-xl">{errors.secondName.message}</span>
                         )}
                     </div>
 
                     <div className="w-full mb-4 gap-3 flex-col">
                         <input
                             autoComplete="new-email"
-                            className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
+                            className={`mb-1 bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
                             placeholder={"Email"}
                             type={"email"}
                             {...register("email", {
@@ -88,13 +88,13 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.email && (
-                            <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.email.message}</span>
+                            <span className="text-main-3 text-sm md:text-xl">{errors.email.message}</span>
                         )}
                     </div>
                     <div className="w-full mb-2 sm:mb-4 gap-3 flex-col">
                         <input
                             autoComplete="new-password"
-                            className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''} `}
+                            className={`mb-1 bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''} `}
                             type={"password"}
                             placeholder={"Password"}
                             {...register("password", {
@@ -105,7 +105,7 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.password && (
-                            <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.password.message}</span>
+                            <span className="text-main-3 text-sm md:text-xl">{errors.password.message}</span>
                         )}
                     </div>
                     <div className="w-full mb-3 sm:mb-6 ">

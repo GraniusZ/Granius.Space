@@ -31,7 +31,7 @@ export const LoginForm: FC = () => {
                 <label className="text-main-4 md:text-5xl mb-3 sm:mb-6 text-3xl">Sign in</label>
                 <div className="w-full mb-4 gap-3 flex-col">
                     <input
-                        className={`bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
+                        className={`mb-1 bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.email ? 'border-red-500' : ''} `}
                         placeholder={"Email"}
                         type={"email"}
                         {...register("email", {
@@ -47,12 +47,12 @@ export const LoginForm: FC = () => {
                         })}
                     />
                     {errors.email && (
-                        <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.email.message}</span>
+                        <span className="text-main-3 text-sm md:text-xl">{errors.email.message}</span>
                     )}
                 </div>
                 <div className="w-full mb-3 sm:mb-5 gap-3 flex-col">
                     <input
-                        className={`bg-main-2 w-full text-main-4  text-xl md:text-2xl  px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''}`}
+                        className={`mb-1 bg-main-2 w-full text-main-4  text-xl md:text-2xl  px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''}`}
                         type={"password"}
                         placeholder={"Password"}
                         {...register("password", {
@@ -63,7 +63,7 @@ export const LoginForm: FC = () => {
                         })}
                     />
                     {errors.password && (
-                        <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.password.message}</span>
+                        <span className="text-main-3 text-sm md:text-xl">{errors.password.message}</span>
                     )}
                 </div>
                 <div className="w-full inline-flex flex-nowrap justify-between gap-4  text-lg text-main-3 mb-3 sm:mb-5">
