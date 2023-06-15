@@ -43,7 +43,7 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.firstName && (
-                            <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.firstName.message}</span>
+                            <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.firstName.message}</span>
                         )}
                     </div>
 
@@ -65,7 +65,7 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.secondName && (
-                            <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.secondName.message}</span>
+                            <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.secondName.message}</span>
                         )}
                     </div>
 
@@ -88,7 +88,7 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.email && (
-                            <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.email.message}</span>
+                            <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.email.message}</span>
                         )}
                     </div>
                     <div className="w-full mb-2 sm:mb-4 gap-3 flex-col">
@@ -105,7 +105,7 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.password && (
-                            <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.password.message}</span>
+                            <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.password.message}</span>
                         )}
                     </div>
                     <div className="w-full mb-3 sm:mb-6 ">

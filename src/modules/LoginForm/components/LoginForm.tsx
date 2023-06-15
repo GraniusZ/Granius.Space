@@ -47,7 +47,7 @@ export const LoginForm: FC = () => {
                         })}
                     />
                     {errors.email && (
-                        <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.email.message}</span>
+                        <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.email.message}</span>
                     )}
                 </div>
                 <div className="w-full mb-3 sm:mb-5 gap-3 flex-col">
@@ -63,7 +63,7 @@ export const LoginForm: FC = () => {
                         })}
                     />
                     {errors.password && (
-                        <span className="text-main-3 mt-1 text-sm md:text-xl">{errors.password.message}</span>
+                        <span className="text-main-3 mt-2 text-sm md:text-xl">{errors.password.message}</span>
                     )}
                 </div>
                 <div className="w-full inline-flex flex-nowrap justify-between gap-4  text-lg text-main-3 mb-3 sm:mb-5">
