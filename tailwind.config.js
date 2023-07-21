@@ -16,6 +16,7 @@ export default {
 
 
       },
+
       'animation': {
         'gradient-x':'gradient-x 15s ease infinite',
         'gradient-y':'gradient-y 15s ease infinite',

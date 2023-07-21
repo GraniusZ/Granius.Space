@@ -24,7 +24,7 @@ export const LoginForm: FC = () => {
         setRememberMe(!rememberMe);
     };
     return (
-        <div className="w-full h-full flex justify-center items-center font-mono mx-6">
+        <div className="w-full h-full flex justify-center items-center font-mono mx-2 md:mx-6">
             <form
                 className="m-auto max-w-2xl w-full flex items-center justify-center flex-col bg-main-1 rounded-xl px-8 py-5 "
                 onSubmit={handleSubmit(handleLogin)}>
@@ -52,7 +52,7 @@ export const LoginForm: FC = () => {
                 </div>
                 <div className="w-full mb-3 sm:mb-5 gap-3 flex-col">
                     <input
-                        className={`mb-1 bg-main-2 w-full text-main-4  text-xl md:text-2xl  px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''}`}
+                        className={`mb-1 bg-main-2 w-full text-main-4 text-xl md:text-2xl  px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.password ? 'border-red-500' : ''}`}
                         type={"password"}
                         placeholder={"Password"}
                         {...register("password", {
@@ -82,7 +82,7 @@ export const LoginForm: FC = () => {
               </span>
                     </div>
                     <Link className="text-sm md:text-base text-end" to={"/forget"}>
-                        Forget Password
+                        Forgot Password
                     </Link>
                 </div>
                 <div className="w-full mb-3 sm:mb-6 ">
@@ -94,7 +94,7 @@ export const LoginForm: FC = () => {
                         <div className="w-full h-full">
                             {!loading ? (
                                 <div
-                                    className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-sm sm:text-base">
+                                    className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-xl md:text-2xl py-1">
                                     <span>Sign in</span>
                                     <ArrowIcon className="fill-main-4"/>
                                 </div>

@@ -17,7 +17,7 @@ export const RegisterForm = () => {
     const [handleRegister, firebaseError, loading] = useSignUp();
     return (
         <>
-            <div className="w-full h-full flex justify-center items-center font-mono mx-6">
+            <div className="w-full h-full flex justify-center items-center font-mono mx-2 md:mx-6 ">
                 <form
                     className="m-auto max-w-2xl w-full flex items-center justify-center flex-col bg-main-1 rounded-xl px-8 py-5"
                     onSubmit={handleSubmit(handleRegister)}
@@ -117,7 +117,7 @@ export const RegisterForm = () => {
                             <div className="w-full h-full">
                                 {!loading ? (
                                     <div
-                                        className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-sm sm:text-base">
+                                        className="w-full h-full justify-center items-center gap-3 flex text-main-4 text-xl md:text-2xl px-1 ">
                                         <span>Sign in</span>
                                         <ArrowIcon className="fill-main-4"/>
                                     </div>

@@ -14,8 +14,24 @@ select:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 1000px #404B69 inset !important;
     -webkit-text-fill-color: #DBEDF3;
 }
-#root{
+
+@layer components {
+    .ellipsis {
+        text-overflow: ellipsis;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+	.transitionClass {
+        transition-duration: 300ms;
+        transition: ease-in-out;
+        transition-delay: 150ms;
+    }
+}
+
+#root {
     width: 100%;
     height: 100%;
     overflow: hidden;
+
 }
