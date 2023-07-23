@@ -17,7 +17,7 @@ export const BoardCardOverlay: FC<BoardCardOverlay> = ({title, description}) => 
                 text-main-1 text-lg"
         >
             <div className="w-full px-12 flex justify-center relative items-center ease-in">
-                <span className="ellipsis text-xl md:text-3xl box-border">{title}</span>
+                <span className="ellipsis text-xl my-1 md:text-3xl md:my-0 box-border noSelect">{title}</span>
                 <div className="absolute w-full flex justify-end items-center ">
 
                     <button className="p-1 relative flex justify-center items-center">
@@ -32,7 +32,7 @@ export const BoardCardOverlay: FC<BoardCardOverlay> = ({title, description}) => 
             <hr className="h-[2px] bg-main-3 border-0 w-full"/>
             <div className="h-full w-full h-max-[80px] ">
                 <span
-                    className="text-base md:text-lg px-2 break-words 2xl:line-clamp-6 xl:line-clamp-5 line-clamp-4 w-full text-center"
+                    className="text-base md:text-lg px-2 break-words 2xl:line-clamp-6 xl:line-clamp-5 line-clamp-4 w-full text-center noSelect"
                 >
                     {description}
                 </span>

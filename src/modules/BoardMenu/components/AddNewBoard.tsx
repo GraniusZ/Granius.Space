@@ -32,7 +32,7 @@ export const AddNewBoard: FC = () => {
                 <div className=" absolute right-0 top-0 mx-3 mt-3 cursor-pointer">
                     <Close onClick={handleCloseBoardCreateMenu}/></div>
 
-                <label className="text-main-4 md:text-5xl mb-3 sm:mb-6 text-3xl">Add new board</label>
+                <label className="text-main-4 md:text-5xl mb-3 sm:mb-6 text-3xl mx-8 md:mx-0 text-center">Add new board</label>
                 <div className="w-full mb-4 gap-3 flex-col">
                     <input
                         className={`mb-1 bg-main-2 w-full text-main-4 text-xl md:text-2xl px-5 py-3 rounded-lg placeholder:text-main-4 box-border border ${errors.title ? 'border-red-500' : ''} select-none `}

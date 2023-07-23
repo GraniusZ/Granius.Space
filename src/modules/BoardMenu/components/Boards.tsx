@@ -46,7 +46,7 @@ export const Boards: FC = memo(function () {
         }),
         useSensor(TouchSensor, {
             activationConstraint: {
-                delay: 300,
+                delay: 150,
                 tolerance: 8,
             },
         }),
@@ -135,7 +135,7 @@ export const Boards: FC = memo(function () {
                                 ))}
                             </SortableContext>
                             {createPortal(<DragOverlay dropAnimation={{
-                                duration: 300,
+                                duration: 250,
                                 easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
                             }}>
                                 {activeId ? (
