@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, memo} from "react";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
 import {setClosed, setOpenBoardCreate} from "@store/slices/boardMenuSlice.ts";
 import {ReactComponent as AddIcon} from "@assets/icons/AddIcon.svg";
@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import {Close} from "@/ui/Close.tsx";
 import {motion} from "framer-motion";
 
-export const BoardsMenuInside: FC = () => {
+export const BoardsMenuInside: FC = memo(function () {
     const dispatch = useAppDispatch();
     const handleOpenBoardCreateMenu = () => {
         dispatch(setOpenBoardCreate());
@@ -55,4 +55,4 @@ export const BoardsMenuInside: FC = () => {
 
         </div>
     )
-}
+})

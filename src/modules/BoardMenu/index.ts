@@ -1,1 +1,1 @@
-export {BoardsMenu} from './components/BoardsMenu.tsx'
+export {Boards} from './components/Boards.tsx'

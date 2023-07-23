@@ -48,7 +48,7 @@ export const BoardCard: FC<BoardCardProps> = memo(function BoardCard({id, title,
                 text-main-1 text-lg"
         >
             <div className="w-full px-12 flex justify-center relative items-center ease-in">
-                <span className="ellipsis text-xl md:text-3xl box-border">{title}</span>
+                <span className="ellipsis text-xl my-1 md:text-3xl md:my-0 box-border">{title}</span>
                 <div className="absolute w-full flex justify-end items-center ">
 
                     <button onClick={handleOpenDeleteBoard} className="p-1 relative flex justify-center items-center">

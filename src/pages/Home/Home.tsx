@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {ProtectedRoute} from "@components/ProtectedRoute/ProtectedRoute.tsx";
 import {usePageTitle} from "@hooks/usePageTitle";
-import {BoardsMenu} from "@modules/BoardMenu";
+import {Boards} from "@modules/BoardMenu";
 import {createPortal} from "react-dom";
 
 import {ReactComponent as LogoIcon} from "@assets/icons/Logo.svg";
@@ -35,7 +35,7 @@ export const Home: FC = () => {
                     </div>
                 </header>
                 <div className="flex w-full h-full relative max-h-full">
-                    <BoardsMenu/>
+                    <Boards/>
                 </div>
                 {isBoardCreateOpened && createPortal(<AddNewBoard/>, document.body)}
                 {
