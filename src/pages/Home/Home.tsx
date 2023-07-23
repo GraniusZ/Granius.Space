@@ -23,8 +23,9 @@ export const Home: FC = () => {
     return (
         <div className="w-full h-full flex flex-col bg-main-1 relative">
             <ProtectedRoute>
-                <header className="text-main-4 text-3xl flex flex-col w-full h-16 min-h-[64px] shadow-xl z-30 sticky">
-                    <div className=" md:hidden visible absolute left-4 top-4 active:scale-105 ease-in-out duration-200">
+                <header
+                    className="text-main-4 text-3xl flex flex-col w-full h-16 min-h-[64px] shadow-xl z-20 sticky noSelect">
+                    <div className=" md:hidden visible top-0 bottom-0 h-fit my-auto left-1 absolute noSelect">
                         <Burger onClick={handleChangeOpened}/>
                     </div>
                     <div className="w-full h-full flex flex-row gap-4 items-center justify-center">

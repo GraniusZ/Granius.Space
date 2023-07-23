@@ -22,11 +22,27 @@ select:-webkit-autofill:focus {
         overflow: hidden;
         white-space: nowrap;
     }
-	.transitionClass {
+
+    .transitionClass {
         transition-duration: 300ms;
         transition: ease-in-out;
         transition-delay: 150ms;
     }
+
+    .noSelect {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+}
+
+body {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 #root {
