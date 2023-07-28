@@ -15,7 +15,7 @@ import {
     useSensor,
     useSensors
 } from '@dnd-kit/core';
-import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable';
+import {rectSortingStrategy, SortableContext} from '@dnd-kit/sortable';
 import {BoardType} from "types/BoardType.ts";
 import {createPortal} from "react-dom";
 import {BoardCardOverlay} from "@modules/Boards/components/BoardCardOverlay.tsx";
@@ -95,12 +95,12 @@ export const Boards: FC = memo(function () {
                 >
                     <div className="w-full h-full relative flex justify-center overflow-y-scroll">
                         <div
-                            className=" absolute  w-[80%] md:w-full md:px-12 flex flex-col pt-10 pb-10 gap-12 box-border ">
+                            className=" absolute Grid  px-5 py-10 w-full box-border ">
 
 
                             <SortableContext
                                 items={localBoards}
-                                strategy={verticalListSortingStrategy}
+                                strategy={rectSortingStrategy}
 
                             >
                                 {localBoards.map((board: BoardType) => (

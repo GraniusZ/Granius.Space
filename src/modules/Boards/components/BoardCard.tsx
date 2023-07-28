@@ -43,13 +43,14 @@ export const BoardCard: FC<BoardCardProps> = memo(function BoardCard({id, title,
             {...attributes}
             {...listeners}
             style={style}
-            className="shadow-xl max-w-3xl  md:max-w-[2000px]
-             2xl:h-72 xl:h-64 h-52 justify-center items-center flex flex-col
+            className="shadow-xl max-w-3xl  md:max-w-[600px]
+            md:min-w-[350px]
+              h-52 justify-center items-center flex flex-col
                 gap-2  overflow-hidden p-3  text-ellipsis font-mono w-full bg-main-4 rounded-xl
                 text-main-1 text-lg noSelect"
         >
             <div className="w-full md:px-3  px-12 flex justify-center  relative items-center ease-in noSelect">
-                <span className="w-full md:pr-8 ellipsis text-xl my-1 md:text-3xl md:my-0 box-border noSelect text-center font-medium  md:text-start">{title}</span>
+                <span className="w-full md:pr-8 ellipsis text-2xl my-1 md:text-3xl md:my-0 box-border noSelect text-center font-medium  md:text-start">{title}</span>
                 <div className="absolute w-full flex justify-end items-center ">
 
                     <button onClick={handleOpenDeleteBoard} className="p-1 relative flex justify-center items-center scale-90 md:scale-100">
@@ -65,7 +66,7 @@ export const BoardCard: FC<BoardCardProps> = memo(function BoardCard({id, title,
             <hr className="h-[2px] bg-main-3 border-0 w-full"/>
             <div className="h-full w-full h-max-[80px] ">
                 <span
-                    className="text-base md:text-lg px-2 break-words 2xl:line-clamp-6 xl:line-clamp-5 line-clamp-4 w-full text-center  md:text-start  noSelect"
+                    className="text-base md:text-lg px-2 break-words line-clamp-4 w-full text-center  md:text-start  noSelect"
                 >
                     {description}
                 </span>
