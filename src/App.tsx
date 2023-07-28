@@ -10,8 +10,9 @@ import {Layout} from "@modules/Layout";
 function App() {
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState<boolean>(true);
+
     useEffect(
-        () =>
+        () => {
             auth.onAuthStateChanged(function (user: User | null) {
                 if (user) {
                     dispatch(
@@ -23,9 +24,11 @@ function App() {
                     );
                 }
                 setLoading(false);
-            }),
+            })
+        },
         [dispatch]
     );
+
     if (loading) {
         return <Layout loading={loading}/>
     }

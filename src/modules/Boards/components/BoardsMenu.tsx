@@ -1,8 +1,8 @@
 import {FC, memo} from "react";
-import {BoardsMenuInside} from "@modules/BoardMenu/components/BoardsMenuInside.tsx";
+import {BoardsMenuInside} from "@modules/Boards/components/BoardsMenuInside.tsx";
 import {createPortal} from "react-dom";
 import {AnimatePresence} from "framer-motion";
-import {BoardsMenuMobile} from "@modules/BoardMenu/components/BoardsMenuMobile.tsx";
+import {BoardsMenuMobile} from "@modules/Boards/components/BoardsMenuMobile.tsx";
 import {useAppSelector} from "@hooks/useTypedSelector.ts";
 
 export const BoardsMenu: FC = memo(function () {

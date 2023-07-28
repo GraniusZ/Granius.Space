@@ -5,9 +5,10 @@ import {AddNewBoardFormType} from "types/AddNewBoardFormType.ts";
 import {setCloseBoardCreate} from "@store/slices/boardMenuSlice.ts";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
 
-import useCreateBoard from "@modules/BoardMenu/hooks/useCreateBoard.ts";
+import useCreateBoard from "@modules/Boards/hooks/useCreateBoard.ts";
 import {motion} from "framer-motion";
 import {Close} from "@/ui/Close.tsx";
+import {setOnline} from "@store/slices/networkSlice.ts";
 
 export const AddNewBoard: FC = () => {
     const {
@@ -19,6 +20,7 @@ export const AddNewBoard: FC = () => {
     });
     const dispatch = useAppDispatch();
     const handleCloseBoardCreateMenu = () => {
+        dispatch(setOnline(true))
         dispatch(setCloseBoardCreate());
     }
     const {handleAdd} = useCreateBoard();

@@ -1,6 +1,6 @@
 export type AddNewBoardFormType= {
-    title:string
-    description:string
+    title: string;
+    id:string,
+    description: string,
     order:number
-    id?:string
 };

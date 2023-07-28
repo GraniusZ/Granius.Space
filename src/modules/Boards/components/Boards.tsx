@@ -1,10 +1,8 @@
 import {FC, memo, useState} from "react";
-import useRealtimeFirestoreBoards from "../hooks/useRealtimeFirestoreBoards.ts";
-import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
-import {useAppSelector} from "@hooks/useTypedSelector.ts";
-import {BoardCard, BoardCardProps} from "@modules/BoardMenu/components/BoardCard.tsx";
 
-import {collection, CollectionReference, doc, writeBatch} from "firebase/firestore";
+import {useAppSelector} from "@hooks/useTypedSelector.ts";
+import {BoardCard} from "@modules/Boards/components/BoardCard.tsx";
+
 
 import {
     closestCenter,
@@ -12,27 +10,23 @@ import {
     DragEndEvent,
     DragOverlay,
     DragStartEvent,
-    KeyboardSensor,
     MouseSensor,
     TouchSensor,
     useSensor,
     useSensors
 } from '@dnd-kit/core';
-import {SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy} from '@dnd-kit/sortable';
-import {db} from "@/config/firebase";
-import {setBoards} from "@store/slices/userSlice.ts";
+import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable';
 import {BoardType} from "types/BoardType.ts";
 import {createPortal} from "react-dom";
-import {BoardCardOverlay} from "@modules/BoardMenu/components/BoardCardOverlay.tsx";
-import {BoardsMenu} from "@modules/BoardMenu/components/BoardsMenu.tsx";
+import {BoardCardOverlay} from "@modules/Boards/components/BoardCardOverlay.tsx";
+import {BoardsMenu} from "@modules/Boards/components/BoardsMenu.tsx";
+import {useGetBoardsQuery, useSwapBoardsMutation} from "@/api/boardsApi.ts";
 
 export const Boards: FC = memo(function () {
-
+    const [handleSwap] = useSwapBoardsMutation()
     const user = useAppSelector((state) => state.user.user);
-    useRealtimeFirestoreBoards(user.uid, true);
-    const dispatch = useAppDispatch();
-    const localBoards = useAppSelector((state) => state.user.boards);
-
+    const {data} = useGetBoardsQuery(user.uid, {skip: !user.uid});
+    const localBoards = data || [];
     const [activeId, setActiveId] = useState<string | null>(null);
     const [activeTitle, setActiveTitle] = useState<string>("");
     const [activeDescription, setActiveDescription] = useState<string>("");
@@ -50,9 +44,7 @@ export const Boards: FC = memo(function () {
                 tolerance: 8,
             },
         }),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        }),
+
     );
 
     function handleDragStart(event: DragStartEvent) {
@@ -81,24 +73,9 @@ export const Boards: FC = memo(function () {
             // Remove the active board from the array
             const [draggedBoard] = newBoards.splice(activeIndex, 1);
 
-            // Insert the active board at the new position
             newBoards.splice(overIndex, 0, draggedBoard);
 
-
-            const collectionRef: CollectionReference = collection(db, `users/${user.uid}/boards`);
-
-            // Create a write batch
-            const batch = writeBatch(db);
-
-            // Update the order of all boards based on their new index in the batch
-            newBoards.forEach((board: BoardType, index: number) => {
-                const docRef = doc(collectionRef, board.id);
-                batch.update(docRef, {order: index});
-            });
-            dispatch(setBoards(newBoards));
-
-            // Commit the batch to execute all update operations at once
-            await batch.commit();
+            handleSwap({data: newBoards, userId: user.uid})
             setActiveId(null);
             setActiveTitle("")
             setActiveDescription("")
@@ -118,7 +95,7 @@ export const Boards: FC = memo(function () {
                 >
                     <div className="w-full h-full relative flex justify-center overflow-y-scroll">
                         <div
-                            className=" absolute  w-[80%] flex flex-col pt-10 pb-10 gap-12 box-border ">
+                            className=" absolute  w-[80%] md:w-full md:px-12 flex flex-col pt-10 pb-10 gap-12 box-border ">
 
 
                             <SortableContext
@@ -126,8 +103,8 @@ export const Boards: FC = memo(function () {
                                 strategy={verticalListSortingStrategy}
 
                             >
-                                {localBoards.map((board: BoardCardProps) => (
-                                    <div key={board.id} className="flex justify-center">
+                                {localBoards.map((board: BoardType) => (
+                                    <div key={board.id}>
                                         <BoardCard id={board.id} title={board.title} description={board.description}/>
                                     </div>
 

@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {motion} from "framer-motion";
-import {BoardsMenuInside} from "@modules/BoardMenu/components/BoardsMenuInside.tsx";
+import {BoardsMenuInside} from "@modules/Boards/components/BoardsMenuInside.tsx";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
 import {setClosed} from "@store/slices/boardMenuSlice.ts";
 
