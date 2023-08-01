@@ -26,7 +26,8 @@ export const Home: FC = () => {
         <div className="w-full h-full flex flex-col bg-main-1 relative">
             <ProtectedRoute>
                 <header
-                    className="text-main-4 text-3xl flex flex-col w-full h-16 min-h-[64px] shadow-xl z-20 sticky noSelect">
+                    className="text-main-4 text-3xl flex flex-col w-full h-16 min-h-[64px] shadow-xl z-20 sticky noSelect"
+                    translate="no">
                     <div className=" md:hidden visible top-0 bottom-0 h-fit my-auto left-1 absolute noSelect">
                         <Burger onClick={handleChangeOpened}/>
                     </div>

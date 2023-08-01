@@ -73,7 +73,9 @@ export const Boards: FC = memo(function () {
             // Remove the active board from the array
             const [draggedBoard] = newBoards.splice(activeIndex, 1);
 
-            newBoards.splice(overIndex, 0, draggedBoard);
+            newBoards.splice(overIndex, 0, draggedBoard).map((board: BoardType, index: number) => {
+                return {...board, order: index};
+            });
 
             handleSwap({data: newBoards, userId: user.uid})
             setActiveId(null);
@@ -86,16 +88,16 @@ export const Boards: FC = memo(function () {
     return (
         <div className="flex flex-row w-full h-full relative box-border">
             <BoardsMenu/>
-            <div className="w-full h-full max-h-full bg-main-2 relative z-0">
+            <div className="w-full h-full max-h-full bg-main-3 relative z-[-50px]">
                 <DndContext
                     sensors={sensors}
                     collisionDetection={closestCenter}
                     onDragEnd={handleDragEnd}
                     onDragStart={handleDragStart}
                 >
-                    <div className="w-full h-full relative flex justify-center overflow-y-scroll">
+                    <div className="w-full h-full relative flex justify-center overflow-y-scroll touch-none z-[-50px]">
                         <div
-                            className=" absolute Grid  px-5 py-10 w-full box-border ">
+                            className=" absolute Grid  px-5 py-10 w-full box-border touch-none">
 
 
                             <SortableContext
@@ -104,7 +106,7 @@ export const Boards: FC = memo(function () {
 
                             >
                                 {localBoards.map((board: BoardType) => (
-                                    <div key={board.id}>
+                                    <div key={board.id} className="touch-none">
                                         <BoardCard id={board.id} title={board.title} description={board.description}/>
                                     </div>
 
@@ -112,7 +114,7 @@ export const Boards: FC = memo(function () {
                                 ))}
                             </SortableContext>
                             {createPortal(<DragOverlay dropAnimation={{
-                                duration: 250,
+                                duration: 350,
                                 easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
                             }}>
                                 {activeId ? (
@@ -131,4 +133,3 @@ export const Boards: FC = memo(function () {
 
     );
 });
-

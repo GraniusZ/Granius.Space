@@ -43,7 +43,7 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.firstName && (
-                            <span className="text-main-3 text-sm md:text-xl">{errors.firstName.message}</span>
+                            <span className="text-main-6 text-sm md:text-xl">{errors.firstName.message}</span>
                         )}
                     </div>
 
@@ -65,7 +65,7 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.secondName && (
-                            <span className="text-main-3 text-sm md:text-xl">{errors.secondName.message}</span>
+                            <span className="text-main-6 text-sm md:text-xl">{errors.secondName.message}</span>
                         )}
                     </div>
 
@@ -88,7 +88,7 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.email && (
-                            <span className="text-main-3 text-sm md:text-xl">{errors.email.message}</span>
+                            <span className="text-main-6 text-sm md:text-xl">{errors.email.message}</span>
                         )}
                     </div>
                     <div className="w-full mb-2 sm:mb-4 gap-3 flex-col">
@@ -105,12 +105,12 @@ export const RegisterForm = () => {
                             })}
                         />
                         {errors.password && (
-                            <span className="text-main-3 text-sm md:text-xl">{errors.password.message}</span>
+                            <span className="text-main-6 text-sm md:text-xl">{errors.password.message}</span>
                         )}
                     </div>
                     <div className="w-full mb-3 sm:mb-6 ">
                         {firebaseError && (
-                            <div className="text-main-3 text-xl">{firebaseError}</div>
+                            <div className="text-main-6 text-xl">{firebaseError}</div>
                         )}
                         <button type={"submit"}
                                 className="w-full flex py-4 rounded-lg bg-main-2 max-h-14 justify-center items-center mt-5">
@@ -130,7 +130,7 @@ export const RegisterForm = () => {
                         </button>
                     </div>
                     <div>
-            <span className="text-main-3 text-sm md:text-base">
+            <span className="text-main-6 text-sm md:text-base">
               Have account?
               <Link to={"../login"} className="text-main-4">
                 &nbsp;Sign In

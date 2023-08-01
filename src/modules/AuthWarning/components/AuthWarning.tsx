@@ -9,7 +9,7 @@ export const AuthWarning: FC = () => {
                 <span className="text-main-4 text-2xl sm:text-4xl">Warning!</span>
                 <span
                     className="text-center text-main-4 text-xl sm:text-3xl">You are already logged into your account</span>
-                <Link to={"/"} className="text-main-3 text-xl sm:text-3xl cursor-pointer">
+                <Link to={"/"} className="text-main-6 text-xl sm:text-3xl cursor-pointer">
                     To your boards
                 </Link>
             </div>

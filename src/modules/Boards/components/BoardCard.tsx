@@ -4,7 +4,6 @@ import {CSS} from '@dnd-kit/utilities';
 import {TrashCan} from "@/ui/TrashCan.tsx";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
 import {setDeleteId, setOpenBoardDelete} from "@store/slices/boardMenuSlice.ts";
-import {motion} from "framer-motion";
 
 export type BoardCardProps = {
     id: string;
@@ -50,14 +49,15 @@ export const BoardCard: FC<BoardCardProps> = memo(function BoardCard({id, title,
                 text-main-1 text-lg noSelect"
         >
             <div className="w-full md:px-3  px-12 flex justify-center  relative items-center ease-in noSelect">
-                <span className="w-full md:pr-8 ellipsis text-2xl my-1 md:text-3xl md:my-0 box-border noSelect text-center font-medium  md:text-start">{title}</span>
+                <span className="w-full md:mr-12 ellipsis text-2xl my-1 md:text-3xl md:my-0 box-border noSelect text-center font-medium  md:text-start">{title}</span>
                 <div className="absolute w-full flex justify-end items-center ">
 
-                    <button onClick={handleOpenDeleteBoard} className="p-1 relative flex justify-center items-center scale-90 md:scale-100">
+                    <button onClick={handleOpenDeleteBoard}
+                            className="group p-1 relative flex justify-center rounded-lg bg-main-4 items-center scale-90 md:scale-100">
                         <TrashCan/>
-                        <motion.div
-                            className="absolute w-full h-full opacity-0 rounded-lg bg-main-3 top-0 bottom-0 m-auto "
-                            whileHover={{opacity: "80%"}} transition={{duration: 0.2}}></motion.div>
+                        <div
+                            className="absolute w-full h-full opacity-0 group-hover:opacity-60 rounded-lg bg-main-5 top-0 bottom-0 m-auto transition-all duration-500 ease-in-out "
+                        ></div>
                     </button>
 
                 </div>

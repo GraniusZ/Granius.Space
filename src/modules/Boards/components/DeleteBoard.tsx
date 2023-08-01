@@ -2,7 +2,7 @@ import {FC} from "react";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
 import {setCloseBoardDelete} from "@store/slices/boardMenuSlice.ts";
 import useDeleteBoard from "@modules/Boards/hooks/useDeleteBoard.ts";
-import {AnimatePresence, motion} from "framer-motion";
+import {motion} from "framer-motion";
 import {Close} from "@/ui/Close.tsx";
 import {setOnline} from "@store/slices/networkSlice.ts";
 
@@ -10,12 +10,12 @@ export const DeleteBoard: FC = () => {
     const dispatch = useAppDispatch();
     const {handleDelete} = useDeleteBoard();
     const handleCloseBoardDelete = () => {
-        dispatch(setCloseBoardDelete());
         dispatch(setOnline(true))
+        dispatch(setCloseBoardDelete());
     }
 
     return (
-        <AnimatePresence>
+
             <div
                 className=" top-0 bottom-0 w-screen h-screen flex justify-center items-center font-mono absolute z-50 overflow-hidden">
                 <div
@@ -30,14 +30,14 @@ export const DeleteBoard: FC = () => {
                     </button>
 
                 </div>
-
-                <motion.div className="w-screen h-screen absolute visible opacity-80 bg-main-1 z-0"
+                <motion.div className={` w-screen h-screen absolute visible  bg-main-1  z-30 `}
                             onClick={handleCloseBoardDelete}
                             initial={{opacity: "0%"}}
                             animate={{opacity: "50%"}}
                             exit={{opacity: "0%"}}
-                            transition={{ease: "linear", duration: 0.1}}></motion.div>
+                            transition={{ease: "linear", duration: 0.1}}>
+
+                </motion.div>
             </div>
-        </AnimatePresence>
     );
 };

@@ -47,7 +47,7 @@ export const LoginForm: FC = () => {
                         })}
                     />
                     {errors.email && (
-                        <span className="text-main-3 text-sm md:text-xl">{errors.email.message}</span>
+                        <span className="text-main-6 text-sm md:text-xl">{errors.email.message}</span>
                     )}
                 </div>
                 <div className="w-full mb-3 sm:mb-5 gap-3 flex-col">
@@ -63,14 +63,14 @@ export const LoginForm: FC = () => {
                         })}
                     />
                     {errors.password && (
-                        <span className="text-main-3 text-sm md:text-xl">{errors.password.message}</span>
+                        <span className="text-main-6 text-sm md:text-xl">{errors.password.message}</span>
                     )}
                 </div>
-                <div className="w-full inline-flex flex-nowrap justify-between gap-4  text-lg text-main-3 mb-3 sm:mb-5">
+                <div className="w-full inline-flex flex-nowrap justify-between gap-4  text-lg text-main-6 mb-3 sm:mb-5">
                     <div className="flex-shrink-0 flex gap-2 items-center relative bg-transparent select-none">
                         <div
                             onClick={handleRememberMe}
-                            className={`w-5 h-5 w-min-5 h-min-5 transition duration-200 ease-in-out ${rememberMe ? "bg-main-3" : "bg-main-4"}`}
+                            className={`w-5 h-5 w-min-5 h-min-5 transition duration-200 ease-in-out ${rememberMe ? "bg-main-6" : "bg-main-4"}`}
                         >
                             {rememberMe && (
                                 <CheckIcon className="w-5 h-5 fill-main-1"
@@ -87,7 +87,7 @@ export const LoginForm: FC = () => {
                 </div>
                 <div className="w-full mb-3 sm:mb-6 ">
                     {firebaseError && (
-                        <div className="text-main-3 text-sm md:text-xl">{firebaseError}</div>
+                        <div className="text-main-6 text-sm md:text-xl">{firebaseError}</div>
                     )}
                     <button type={"submit"}
                             className="w-full flex py-4 rounded-lg bg-main-2 max-h-14 justify-center items-center">
@@ -108,7 +108,7 @@ export const LoginForm: FC = () => {
                     </button>
                 </div>
                 <div>
-            <span className="text-main-3 text-sm md:text-base">
+            <span className="text-main-6 text-sm md:text-base">
               Don’t have account?
               <Link to={"../register"} className="text-main-4">
                 &nbsp;Sign Up

@@ -27,7 +27,6 @@ export const AddNewBoard: FC = () => {
     return (
         <div
             className=" top-0 bottom-0 w-screen h-screen flex justify-center items-center font-mono absolute z-50 overflow-hidden">
-
             <form
                 className="m-auto max-w-2xl w-full flex items-center justify-center flex-col bg-main-1 rounded-xl px-8 py-5 gap-2 sm:gap-4 z-50 mx-4 relative select-none"
                 onSubmit={handleSubmit(handleAdd)}>
