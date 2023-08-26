@@ -1,3 +1,5 @@
+### !Master branch current broken
+
 # Granius.Space
 
 ## Granius.Space is a simple kanban web application built with React and Firebase.
