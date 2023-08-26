@@ -218,7 +218,7 @@ export const Board: FC = () => {
 
             return
         }
-        const isOverAColumn = over.data.current?.type === "Column";
+
         //
         // if (isActiveATask && isOverAColumn) {
         //     if (activeId === overId) return;
