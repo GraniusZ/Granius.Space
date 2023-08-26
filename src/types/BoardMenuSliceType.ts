@@ -1,6 +1,8 @@
 export type BoardMenuSliceType = {
     opened: boolean,
     openedBoardCreate:boolean,
-    openedDeleteBoard:boolean
-    deleteId: string | null
+    openedBoardInfo:boolean
+    activeId: string | null
+    openedDeleteConfirmation: boolean,
+    statusChangeOpened: boolean,
 }

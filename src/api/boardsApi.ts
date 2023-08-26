@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {BoardType} from 'types/BoardType'; // Removed ".ts" extension
+import {BoardType} from 'types/BoardType';
 import {db} from "@/config/firebase";
-import {collection, CollectionReference, doc, onSnapshot, orderBy, query, writeBatch} from "firebase/firestore";
+import {collection, getDocs, onSnapshot, orderBy, query, writeBatch} from "firebase/firestore";
 
 
 export const boardsApi = createApi({
@@ -9,29 +9,49 @@ export const boardsApi = createApi({
     baseQuery: fetchBaseQuery({baseUrl: '/api'}),
     endpoints: (builder) => ({
         getBoards: builder.query<BoardType[], string>({
-            async queryFn() {
-                return {data: []};
+            async queryFn(userId) {
+                const q = query(collection(db, `users/${userId}/boards`), orderBy('date', 'desc'));
+                const boards = await getDocs(q)
+                const mappedData: BoardType[] = await Promise.all(
+                    boards.docs.map(async (doc) => {
+
+
+                        const boardData = doc.data();
+
+                        return {
+                            id: boardData.id,
+                            title: boardData.title,
+                            date: boardData.date,
+                            author: boardData.author,
+                            status: boardData.status
+                        }
+                    }))
+                return {data: mappedData};
             },
             async onCacheEntryAdded(
                 userId,
-                {updateCachedData, cacheDataLoaded, cacheEntryRemoved}
+                {updateCachedData, cacheDataLoaded, cacheEntryRemoved,}
             ) {
                 let unsubscribe;
                 try {
 
                     await cacheDataLoaded;
-                    const q = query(collection(db, `users/${userId}/boards`), orderBy("order"));
-                    unsubscribe = onSnapshot(q, (snapshot) => {
+                    const q = query(collection(db, `users/${userId}/boards`), orderBy('date', 'desc'));
+
+                    unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
                         updateCachedData(() => {
-                            return snapshot?.docs?.map((doc) => ({
+                            return snapshot.docs?.map((doc) => (
+                                {
                                 id: doc.data().id,
                                 title: doc.data().title,
-                                description: doc.data().description,
-                                order: doc.data().order,
+                                date: doc.data().date,
+                                author: doc.data().author,
+                                status: doc.data().status,
                                 ...doc.data(),
                             }));
                         });
                     });
+
                 } catch (error) {
                     throw new Error();
                 }
@@ -41,46 +61,17 @@ export const boardsApi = createApi({
             },
 
         }),
-        swapBoards: builder.mutation({
-            async queryFn({data: boards, userId}) {
-                try {
-                    const batch = writeBatch(db);
-                    const collectionRef: CollectionReference = collection(db, `users/${userId}/boards`);
-                    boards.forEach((board: BoardType, index: number) => {
-                        const docRef = doc(collectionRef, board.id);
-                        batch.update(docRef, {order: index});
-                    });
-                    await batch.commit();
-                    return {data: "updated"};
-                } catch (err) {
-                    throw new Error();
-                }
-            },
-            onQueryStarted({data, userId}, {dispatch, queryFulfilled}) {
-                const patchResult = dispatch(
-                    boardsApi.util.updateQueryData('getBoards', userId, (draft) => {
-                        Object.assign(draft, data);
-                    })
-                );
-                queryFulfilled.catch(patchResult.undo);
-            },
-        }),
+
         addBoard: builder.mutation({
-            async queryFn({boards, newBoard, docRef, collectionRef}) {
+            async queryFn({newBoard, docRef}) {
                 try {
 
 
                     const batch = writeBatch(db);
                     batch.set(docRef, newBoard);
-
-                    boards.forEach((board: BoardType) => {
-                        const docRef = doc(collectionRef, board.id);
-                        batch.update(docRef, {order: board.order});
-                    });
                     await batch.commit();
                     return {data: "updated"};
                 } catch (err) {
-                    console.log(err)
                     throw new Error();
                 }
             },
@@ -97,20 +88,16 @@ export const boardsApi = createApi({
 
         }),
         deleteBoard: builder.mutation({
-            async queryFn({boards, boardRef, boardsRef}) {
+            async queryFn({boardRef}) {
                 try {
 
                     const batch = writeBatch(db);
                     batch.delete(boardRef);
-                    // Update the order of all boards based on their new index in the batch
-                    boards.forEach((board: BoardType, index: number) => {
-                        const docRef = doc(boardsRef, board.id);
-                        batch.update(docRef, {order: index});
-                    });
+
                     batch.commit()
                     return {data: "updated"};
                 } catch (err) {
-                    console.log(err)
+
                     throw new Error();
                 }
             },
@@ -119,9 +106,7 @@ export const boardsApi = createApi({
             }) {
                 const patchResult = dispatch(
                     boardsApi.util.updateQueryData('getBoards', userId, (draft) => {
-                        draft.filter((board) => board.id !== deleteId).map((board: BoardType, index: number) => {
-                            return {...board, order: index};
-                        });
+                        draft.filter((board) => board.id !== deleteId)
                     })
                 );
                 queryFulfilled.catch(patchResult.undo);
@@ -131,4 +116,4 @@ export const boardsApi = createApi({
     }),
 });
 // noinspection JSUnusedGlobalSymbols
-export const {useGetBoardsQuery, useSwapBoardsMutation, useAddBoardMutation, useDeleteBoardMutation} = boardsApi;
+export const {useGetBoardsQuery, useAddBoardMutation, useDeleteBoardMutation} = boardsApi;

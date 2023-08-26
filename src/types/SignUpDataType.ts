@@ -1,6 +1,6 @@
 export type SignUpDataType = {
-    userName:string,
-    userSurname:string,
+    firstName:string,
+    secondName:string,
     email: string;
     password: string;
 };

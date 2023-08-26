@@ -1,42 +1,40 @@
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {ProtectedRoute} from "@components/ProtectedRoute/ProtectedRoute.tsx";
 import {usePageTitle} from "@hooks/usePageTitle";
 import {Boards} from "src/modules/Boards";
 import {createPortal} from "react-dom";
-import {ReactComponent as LogoIcon} from "@assets/icons/Logo.svg";
-import {Burger} from "@/ui/Burger.tsx";
-import {changeOpened} from "@store/slices/boardMenuSlice.ts";
+import {
+    setCloseBoardCreate,
+    setBoardInfo,
+    setMenuClosed,
+    setDeleteConfirmation,
+    setStatus
+} from "@store/slices/boardMenuSlice.ts";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
 import {AddNewBoard} from "@modules/Boards/components/AddNewBoard.tsx";
 import {useAppSelector} from "@hooks/useTypedSelector.ts";
-import {DeleteBoard} from "@modules/Boards/components/DeleteBoard.tsx";
-import {NetworkError} from "@modules/Boards/components/NetworkError.tsx";
+import {NetworkError} from "@modules/NetworkError/components/NetworkError.tsx";
 import {AnimatePresence} from "framer-motion";
+import {useLocation} from "react-router-dom";
+import {BoardInfo} from "@modules/BoardInfo/components/BoardInfo.tsx";
 
 export const Home: FC = () => {
+    const isBoardInfoOpened = useAppSelector((state) => state.boardMenu.openedBoardInfo)
     usePageTitle("Home");
     const dispatch = useAppDispatch();
-    const handleChangeOpened = () => {
-        dispatch(changeOpened());
-    };
+    const location = useLocation();
     const isBoardCreateOpened = useAppSelector((state) => state.boardMenu.openedBoardCreate)
-    const isBoardDeleteOpened = useAppSelector((state) => state.boardMenu.openedDeleteBoard)
     const isOnline = useAppSelector((state) => state.network.online);
+    useEffect(() => {
+        dispatch(setCloseBoardCreate())
+        dispatch(setMenuClosed())
+        dispatch(setBoardInfo(false))
+        dispatch(setDeleteConfirmation(false))
+        dispatch(setStatus(false))
+    }, [location, dispatch]);
     return (
         <div className="w-full h-full flex flex-col bg-main-1 relative">
             <ProtectedRoute>
-                <header
-                    className="text-main-4 text-3xl flex flex-col w-full h-16 min-h-[64px] shadow-xl z-20 sticky noSelect"
-                    translate="no">
-                    <div className=" md:hidden visible top-0 bottom-0 h-fit my-auto left-1 absolute noSelect">
-                        <Burger onClick={handleChangeOpened}/>
-                    </div>
-                    <div className="w-full h-full flex flex-row gap-4 items-center justify-center">
-                        <LogoIcon
-                            className="w-[30px] h-[30px]"/>
-                        Kanban
-                    </div>
-                </header>
                 <div className="flex w-full h-full relative max-h-full">
                     <Boards/>
                 </div>
@@ -46,13 +44,14 @@ export const Home: FC = () => {
                         <AddNewBoard/>}</AnimatePresence>, document.body)
                 }
                 {
-                    createPortal(<AnimatePresence>{isBoardDeleteOpened &&
-                        <DeleteBoard/>}</AnimatePresence>, document.body)
+                    createPortal(<AnimatePresence>{isBoardInfoOpened &&
+                        <BoardInfo/>}</AnimatePresence>, document.body)
                 }
                 {
                     createPortal(<AnimatePresence>{!isOnline &&
                         <NetworkError/>}</AnimatePresence>, document.body)
                 }
+
             </ProtectedRoute>
         </div>
     );

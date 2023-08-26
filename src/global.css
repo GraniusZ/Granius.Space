@@ -18,9 +18,18 @@ select:-webkit-autofill:focus {
 @layer components {
     .ellipsis {
         text-overflow: ellipsis;
-        display: block;
+        display: inline-block;
+        text-wrap: none;
         overflow: hidden;
-        white-space: nowrap;
+    }
+    .ellipsisTable {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-wrap: none;
+
+    }
+	.svg{
+        -webkit-backface-visibility: hidden;
     }
 
     .transitionClass {
@@ -28,7 +37,6 @@ select:-webkit-autofill:focus {
         transition: ease-in-out;
         transition-delay: 150ms;
     }
-
     .noSelect {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -36,15 +44,17 @@ select:-webkit-autofill:focus {
         -ms-user-select: none;
         user-select: none;
     }
-    .Grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        align-items: center;
-        grid-gap: 3rem;
-    }
+
+
 
 }
-
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+span:focus{
+    outline: none;
+}
 body {
     -ms-touch-action: manipulation;
     touch-action: manipulation;

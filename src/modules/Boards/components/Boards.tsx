@@ -1,131 +1,34 @@
-import {FC, memo, useState} from "react";
-
-import {useAppSelector} from "@hooks/useTypedSelector.ts";
-import {BoardCard} from "@modules/Boards/components/BoardCard.tsx";
-
-
-import {
-    closestCenter,
-    DndContext,
-    DragEndEvent,
-    DragOverlay,
-    DragStartEvent,
-    MouseSensor,
-    TouchSensor,
-    useSensor,
-    useSensors
-} from '@dnd-kit/core';
-import {rectSortingStrategy, SortableContext} from '@dnd-kit/sortable';
-import {BoardType} from "types/BoardType.ts";
-import {createPortal} from "react-dom";
-import {BoardCardOverlay} from "@modules/Boards/components/BoardCardOverlay.tsx";
+import {FC, memo} from "react";
 import {BoardsMenu} from "@modules/Boards/components/BoardsMenu.tsx";
-import {useGetBoardsQuery, useSwapBoardsMutation} from "@/api/boardsApi.ts";
+import {useOutletContext} from "react-router-dom"
+import {Table} from "@modules/Boards/components/Table.tsx";
+import {Burger} from "@/ui/Burger";
+import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
+import {changeOpened} from "@store/slices/boardMenuSlice.ts";
+import {BoardType} from "types/BoardType.ts";
 
 export const Boards: FC = memo(function () {
-    const [handleSwap] = useSwapBoardsMutation()
-    const user = useAppSelector((state) => state.user.user);
-    const {data} = useGetBoardsQuery(user.uid, {skip: !user.uid});
-    const localBoards = data || [];
-    const [activeId, setActiveId] = useState<string | null>(null);
-    const [activeTitle, setActiveTitle] = useState<string>("");
-    const [activeDescription, setActiveDescription] = useState<string>("");
-
-    const sensors = useSensors(
-        useSensor(MouseSensor, {
-            activationConstraint: {
-                distance: 16,
-            },
-
-        }),
-        useSensor(TouchSensor, {
-            activationConstraint: {
-                delay: 150,
-                tolerance: 8,
-            },
-        }),
-
-    );
-
-    function handleDragStart(event: DragStartEvent) {
-        const {id} = event.active;
-        const idString = String(id); // Convert id to a string if it's a number
-        setActiveId(idString);
-
-        // Find the board with the corresponding id
-        const activeBoard = localBoards.find((board: BoardType) => board.id === id);
-
-        if (activeBoard) {
-            const {title, description} = activeBoard;
-            setActiveTitle(title);
-            setActiveDescription(description);
-        }
-    }
-
-    const handleDragEnd = async (event: DragEndEvent) => {
-        const {active, over} = event;
-
-        if (over && active.id !== over.id) {
-            const newBoards = [...localBoards];
-            const activeIndex = newBoards.findIndex((board) => board.id === active.id);
-            const overIndex = newBoards.findIndex((board) => board.id === over.id);
-
-            // Remove the active board from the array
-            const [draggedBoard] = newBoards.splice(activeIndex, 1);
-
-            newBoards.splice(overIndex, 0, draggedBoard).map((board: BoardType, index: number) => {
-                return {...board, order: index};
-            });
-
-            handleSwap({data: newBoards, userId: user.uid})
-            setActiveId(null);
-            setActiveTitle("")
-            setActiveDescription("")
-        }
+    const localBoards: BoardType[] = useOutletContext()
+    const dispatch = useAppDispatch();
+    const handleChangeOpened = () => {
+        dispatch(changeOpened());
     };
-
 
     return (
         <div className="flex flex-row w-full h-full relative box-border">
             <BoardsMenu/>
-            <div className="w-full h-full max-h-full bg-main-3 relative z-[-50px]">
-                <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragEnd={handleDragEnd}
-                    onDragStart={handleDragStart}
-                >
-                    <div className="w-full h-full relative flex justify-center overflow-y-scroll touch-none z-[-50px]">
-                        <div
-                            className=" absolute Grid  px-5 py-10 w-full box-border touch-none">
-
-
-                            <SortableContext
-                                items={localBoards}
-                                strategy={rectSortingStrategy}
-
-                            >
-                                {localBoards.map((board: BoardType) => (
-                                    <div key={board.id} className="touch-none">
-                                        <BoardCard id={board.id} title={board.title} description={board.description}/>
-                                    </div>
-
-
-                                ))}
-                            </SortableContext>
-                            {createPortal(<DragOverlay dropAnimation={{
-                                duration: 350,
-                                easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
-                            }}>
-                                {activeId ? (
-                                    <BoardCardOverlay title={activeTitle} description={activeDescription}/>
-                                ) : null}
-                            </DragOverlay>, document.body)}
-
-
-                        </div>
+            <div className="w-full h-full max-h-full flex flex-col bg-main-1 relative z-[-50px]">
+                <div className="h-fit text-xl text-main-4 font-semibold relative flex">
+                    <div className=" md:hidden visible top-0 bottom-0 h-fit my-auto left-1 absolute noSelect">
+                        <Burger onClick={handleChangeOpened}/>
                     </div>
-                </DndContext>
+                    <span className="px-4 py-2 h-full ml-[50px] md:ml-0">Boards</span></div>
+                <div
+                    className="w-full h-full relative bg-main-2 overflow-scroll overflow-x-auto z-[-50px]">
+
+                    <Table boards={localBoards}/>
+                </div>
+
 
             </div>
 

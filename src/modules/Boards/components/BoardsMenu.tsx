@@ -10,7 +10,7 @@ export const BoardsMenu: FC = memo(function () {
         return (
             <>
                 <div
-                    className="h-full w-full max-w-sm md:max-w-[350px] bg-main-5 drop-shadow-2xl mb-4 absolute shadow-2xl md:relative z-50 hidden md:block  md:left-0 md:visible "
+                    className="h-full w-full max-w-sm md:max-w-[200px] bg-main-5 drop-shadow-2xl mb-4 absolute shadow-2xl md:relative z-50 hidden md:block  md:left-0 md:visible "
                 >
                     <BoardsMenuInside/>
                 </div>

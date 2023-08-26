@@ -2,17 +2,17 @@ import {FC} from "react";
 import {motion} from "framer-motion";
 import {BoardsMenuInside} from "@modules/Boards/components/BoardsMenuInside.tsx";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
-import {setClosed} from "@store/slices/boardMenuSlice.ts";
+import {setMenuClosed} from "@store/slices/boardMenuSlice.ts";
 
 export const BoardsMenuMobile: FC = () => {
     const dispatch = useAppDispatch();
     const handleCloseBoardMenu = () => {
-        dispatch(setClosed());
+        dispatch(setMenuClosed());
     };
     return (
         <div className="z-50">
             <motion.div
-                className=" top-0 h-full w-full sm:max-w-sm md:max-w-[350px] max-w-full  bg-main-3 drop-shadow-xl mb-4 absolute  md:relative z-50 visible block  md:left-0 md:hidden "
+                className=" top-0 h-full w-full sm:max-w-sm md:max-w-[250px] max-w-full  bg-main-3 drop-shadow-xl mb-4 absolute  md:relative z-50 visible block  md:left-0 md:hidden "
                 initial={{left: "-100%"}}
                 animate={{left: "0"}}
                 exit={{left: "-100%"}}

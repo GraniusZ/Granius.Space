@@ -1,10 +1,13 @@
 import {useLocation} from "react-router-dom";
 import {useEffect} from "react";
 
-export const usePageTitle = (title:string):void => {
+export const usePageTitle = (title: string | undefined): void => {
     const location = useLocation();
 
     useEffect(() => {
-        document.title = `${title} | Kanban`;
+        if (title) {
+            document.title = `${title} | Granius.Space`;
+        }
+
     }, [location, title]);
 };

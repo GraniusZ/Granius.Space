@@ -4,18 +4,20 @@ import {BoardMenuSliceType} from "types/BoardMenuSliceType.ts";
 const initialState: BoardMenuSliceType = {
     opened: false,
     openedBoardCreate:false,
-    openedDeleteBoard:false,
-    deleteId: null,
+    openedBoardInfo: false,
+    activeId: null,
+    openedDeleteConfirmation: false,
+    statusChangeOpened: false
 }
 
 export const boardMenuSlice = createSlice({
-    name: "board",
+    name: "boardMenu",
     initialState,
     reducers: {
         changeOpened: (state) => {
             state.opened = !state.opened;
         },
-        setClosed: (state) => {
+        setMenuClosed: (state) => {
             state.opened = false;
         },
         setOpenBoardCreate:(state) => {
@@ -24,18 +26,32 @@ export const boardMenuSlice = createSlice({
         setCloseBoardCreate:(state) => {
             state.openedBoardCreate = false;
         },
-        setOpenBoardDelete:(state) => {
-            state.openedDeleteBoard = true;
+        setBoardInfo: (state, action) => {
+            state.openedBoardInfo = action.payload;
         },
-        setCloseBoardDelete:(state) => {
-            state.openedDeleteBoard = false;
+
+        setActiveId: (state, action) => {
+            state.activeId = action.payload;
         },
-        setDeleteId:(state,action) => {
-            state.deleteId = action.payload;
+        setDeleteConfirmation: (state, action) => {
+            state.openedDeleteConfirmation = action.payload
         },
+        setStatus: (state, action) => {
+            state.statusChangeOpened = action.payload
+        }
+
     }
 })
 
-export const {changeOpened, setClosed, setCloseBoardCreate, setDeleteId, setOpenBoardCreate, setOpenBoardDelete, setCloseBoardDelete} = boardMenuSlice.actions;
+export const {
+    changeOpened,
+    setMenuClosed,
+    setCloseBoardCreate,
+    setActiveId,
+    setOpenBoardCreate,
+    setBoardInfo,
+    setDeleteConfirmation,
+    setStatus
+} = boardMenuSlice.actions;
 
 export const boardMenuReducer = boardMenuSlice.reducer;

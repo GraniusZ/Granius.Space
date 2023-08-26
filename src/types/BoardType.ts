@@ -1,6 +1,9 @@
 export type BoardType = {
     title: string;
     id:string,
-    description: string,
-    order:number
+    date: number,
+    status: string,
+    tasks?: number,
+    columns?: number
+    author: string
 };

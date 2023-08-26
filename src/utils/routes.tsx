@@ -4,6 +4,9 @@ import {Login} from "@pages/Login/Login.tsx";
 import {Register} from "@pages/Register/Register.tsx";
 import {Layout} from "@modules/Layout/components/Layout.tsx";
 import {NotFound} from "@pages/NotFound/NotFound.tsx";
+import {BoardPage} from "@pages/Board/BoardPage.tsx";
+import {BoardsLayout} from "@modules/BoardsLayout";
+import {BoardLayout} from "@modules/BoardLayout";
 
 
 export const routes = createBrowserRouter([
@@ -13,8 +16,23 @@ export const routes = createBrowserRouter([
         element: <Layout/>,
         children: [
             {
-                index:true,
-                element:<Home/>
+                element: <BoardsLayout/>,
+                children:[
+                    {
+                        index:true,
+                        element:<Home/>
+                    },
+                    {
+                        path: "/board/:id",
+                        element: <BoardLayout/>,
+                        children:[{
+                            element:<BoardPage/>,
+                            index:true,
+                        }],
+                    },
+                ],
+
+
             },
 
             {
@@ -28,6 +46,8 @@ export const routes = createBrowserRouter([
                 element: <Register/>,
 
             },
+
+
             {
                 path: "*",
                 element: <NotFound/>,
@@ -35,4 +55,5 @@ export const routes = createBrowserRouter([
 
         ],
     },
+
 ]);

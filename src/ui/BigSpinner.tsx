@@ -1,6 +1,6 @@
-import {FC} from "react";
+import {FC, memo} from "react";
 
-export const BigSpinner: FC = () => {
+export const BigSpinner: FC = memo(() => {
     return (
         <div
             className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-main-4 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
@@ -11,4 +11,4 @@ export const BigSpinner: FC = () => {
   >
         </div>
     );
-};
+});

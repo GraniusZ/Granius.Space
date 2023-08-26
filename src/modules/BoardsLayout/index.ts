@@ -1,0 +1,1 @@
+export {BoardsLayout} from "./components/BoardsLayout.tsx"

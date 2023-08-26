@@ -1,22 +1,21 @@
 import {useAppSelector} from "@hooks/useTypedSelector.ts";
-import {BoardType} from "types/BoardType.ts";
-import {collection, CollectionReference, doc} from "firebase/firestore";
+import {collection, doc} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
-import {setCloseBoardDelete} from "@store/slices/boardMenuSlice.ts";
-import {useDeleteBoardMutation, useGetBoardsQuery} from "@/api/boardsApi.ts";
+import {setBoardInfo, setDeleteConfirmation} from "@store/slices/boardMenuSlice.ts";
+import {useDeleteBoardMutation} from "@/api/boardsApi";
 import {setOnline} from "@store/slices/networkSlice.ts";
 import {useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const useDeleteBoard = () =>{
+	const location = useLocation()
 	const user = useAppSelector((state) => state.user.user);
-	const {data} = useGetBoardsQuery(user.uid, {skip: !user.uid});
-	const boards = data || [];
-	const deleteId = useAppSelector((state) => state.boardMenu.deleteId);
+	const deleteId = useAppSelector((state) => state.boardMenu.activeId);
 	const dispatch = useAppDispatch();
 	const [deleteBoard] = useDeleteBoardMutation()
 	const [deleteTimer, setDeleteTimer] = useState<NodeJS.Timeout | null>( null); // Добавляем состояние для таймера
-
+	const navigate = useNavigate();
 	const handleDelete = async () =>{
 		if (deleteTimer) {
 			clearTimeout(deleteTimer);
@@ -27,18 +26,19 @@ const useDeleteBoard = () =>{
 			setDeleteTimer(newTimer);
 			return;
 		}
-		const newBoards = boards
-			.filter((board: BoardType) => board.id !== deleteId)
-			.map((board: BoardType, index: number) => {
-				return {...board, order: index};
-			});
-		const boardsRef: CollectionReference = collection(db, `users/${user.uid}/boards`);
+
 		const boardRef = doc(collection(db, `users/${user.uid}/boards`), deleteId);
 
 		await Promise.all([
-			deleteBoard({boards: newBoards, userId: user.uid, boardRef: boardRef, boardsRef: boardsRef, deleteId: deleteId}),
-			dispatch(setCloseBoardDelete())
-		])
+			deleteBoard({userId: user.uid, boardRef: boardRef, deleteId: deleteId}),
+			dispatch(setOnline(true)),
+			dispatch(setBoardInfo(false)),
+			dispatch(setDeleteConfirmation(false))
+		]).then(() => {
+			if (location.pathname.includes("board")) {
+				return navigate("/")
+			}
+		})
 
 	}
 

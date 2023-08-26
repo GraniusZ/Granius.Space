@@ -17,14 +17,16 @@ export const useSignUp = () => {
     const loading = useAppSelector((state) => state.user.loading);
 
     const signUp = useCallback(
-        async ({ userName, userSurname, email, password }: SignUpDataType) => {
+        async ({ firstName, secondName, email, password }: SignUpDataType) => {
             dispatch(setLoading(true));
             setError("");
             try {
                 const userAuth = await createUserWithEmailAndPassword(auth, email, password);
                 // Update the newly created user with a display name
+
                 await updateProfile(userAuth.user, {
-                    displayName: userName + " " + userSurname,
+                    displayName: `${firstName} ${secondName}`,
+
                 });
                 // Dispatch the user information for persistence in the redux state
                 dispatch(
