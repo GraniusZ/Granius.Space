@@ -109,7 +109,7 @@ export const boardApi = createApi({
                     return { data: [] }; // or any appropriate response
                 }
                 const tasksPromises = columns
-                    .filter(column => column.hasTasks)
+
                     .map(async column => {
                         const columnId = column.id;
                         const tasksQuery = query(collection(db, `users/${userId}/boards/${boardId}/columns/${columnId}/tasks`), orderBy("order"));
@@ -291,16 +291,14 @@ export const boardApi = createApi({
 
         }),
         addTask: builder.mutation({
-            async queryFn({tasks, newTask, docRef, boardId, userId, columnId}) {
+            async queryFn({tasks, newTask, docRef, boardId, userId}) {
                 try {
 
                     const batch = writeBatch(db);
                     const boardRef = doc(db, `users/${userId}/boards/${boardId}`);
-                    const colRef = doc(db, `users/${userId}/boards/${boardId}/columns/${columnId}`);
                     batch.set(docRef, newTask);
                     const order = tasks.length
                     batch.update(docRef, {order: order});
-                    batch.update(colRef, {hasTasks:true})
                     batch.update(boardRef, {date: Date.now()});
                     await batch.commit();
                     return {data: "updated"};
@@ -434,11 +432,9 @@ export const boardApi = createApi({
                     else{
                         if (addedTask){
                             const collectionRef = collection(db, `users/${userId}/boards/${boardId}/columns/${overColumnId}/tasks`);
-                            const colRef = doc(db, `users/${userId}/boards/${boardId}/columns/${overColumnId}`);
                             const tasks = tasksList.find((column:ColumnType) => column.id === overColumnId).tasks
                             const addedDocRef = doc(collectionRef, addedTask.id);
                             batch.set(addedDocRef, { ...addedTask, order: tasks.length });
-                            batch.update(colRef, {hasTasks:true})
                              tasks.forEach((task: TaskType, index: number) => {
                                 const docRef = doc(collectionRef, task.id);
                                batch.update(docRef, {order: index});

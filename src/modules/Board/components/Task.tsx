@@ -23,19 +23,19 @@ export const Task: FC<Task> = ({task, id}) => {
     });
 
     const style = {
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
-        opacity: isDragging ? 0.5 : 1,
+        opacity: isDragging ? 0.2 : 1,
         willChange: "transform",
 
     };
     return (
 
-        <div className="rounded-sm bg-main-3 py-4 px-3 pr-10 z-10 group/task noSelect cursor-pointer border-main-7 border flex h-fit"   ref={setNodeRef}
+        <div className="rounded-sm bg-main-3 py-4 px-3 pr-10 z-10 ellipsis group/task  noSelect cursor-pointer border-main-7 border flex h-fit"   ref={setNodeRef}
              {...attributes}
              {...listeners}
              style={style}>
-            <div className=" h-fit w-full text-sm text-main-1 font-bold break-words group-hover/task:text-main-7 group-hover/task:opacity-80 group-hover/task:brightness-150 noSelect transition-all duration-300 ease-in-out">{task?.title}</div>
+            <div className=" h-fit w-full  text-sm   ellipsis text-main-1 font-bold !whitespace-nowrap  group-hover/task:text-main-7 group-hover/task:opacity-80 group-hover/task:brightness-150 noSelect transition-all duration-300 ease-in-out">{task?.title}</div>
         </div>
     );
 };
