@@ -13,7 +13,6 @@ import {BoardType} from "types/BoardType.ts";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
 import {setActiveId} from "@store/slices/boardMenuSlice.ts";
 import {useGetTasksListQuery, useSwapColumnsMutation, useSwapTasksMutation} from "@/api/boardApi";
-import {TasksListType} from "types/TasksListType.ts";
 import {
     setActiveColumn,
     setActiveTask,
@@ -57,14 +56,7 @@ export const Board: FC = () => {
 
     const activeColumn = useAppSelector((state) => state.boardPage.activeColumn);
     const activeTask = useAppSelector((state) => state.boardPage.activeTask);
-    useEffect(() => {
-        if (JSON.stringify(oldTasksList) !== JSON.stringify(boardList)) {
-            setOldTasksList(boardList)
-            setLocalTasksList(boardList)
-        }
-    }, [tasksList]);
-    const [oldTasksList, setOldTasksList] = useState<TasksListType[]>([])
-    const [localTasksList, setLocalTasksList] = useState<TasksListType[]>([])
+
 
 
 
@@ -143,140 +135,141 @@ export const Board: FC = () => {
 
         const isActiveATask = active.data.current?.type === "Task";
         const isOverATask = over.data.current?.type === "Task";
+        const isOverAColumn = over.data.current?.type === "Column"
         if (isActiveATask && isOverATask) {
             if (activeId === overId) return;
-            console.log(123)
-            const activeColumn = localTasksList.find(list => list.tasks.some(task => task.id === active.id));
-            const overColumn = localTasksList.find(list => list.tasks.some(task => task.id === over.id));
-            if (!activeColumn || !overColumn) {
 
+            const updatedBoardList = boardList.map(column => ({
+                ...column,
+                tasks: column.tasks.map(task => ({...task})),
+            }));
+
+            const activeColumnIndex = updatedBoardList.findIndex(column => column.tasks.some(task => task.id === activeId));
+            const overColumnIndex = updatedBoardList.findIndex(column => column.tasks.some(task => task.id === overId));
+
+            if (activeColumnIndex === -1 || overColumnIndex === -1) {
                 return;
             }
-            const activeTasks = [...activeColumn.tasks]
-            const overTasks = [...overColumn.tasks]
 
-            const activeIndex = activeColumn.tasks.findIndex((task) => task.id === active.id);
-            const overIndex = overTasks.findIndex((task) => task.id === over.id);
+            const activeColumn = updatedBoardList[activeColumnIndex];
+            const overColumn = updatedBoardList[overColumnIndex];
+
+            const activeTaskIndex = activeColumn.tasks.findIndex(task => task.id === activeId);
+            const overTaskIndex = overColumn.tasks.findIndex(task => task.id === overId);
+
+            if (activeTaskIndex === -1 || overTaskIndex === -1) {
+                return;
+            }
             if (activeColumn.id != overColumn.id) {
-                const movedTask = activeTasks.splice(activeIndex, 1)[0];
-
-                // Вставляємо задачу до колонки overColumn
-                overTasks.splice(overIndex, 0, movedTask);
-
-                // Оновлюємо стан localTasksList з оновленими задачами
-                setLocalTasksList(prevTasksList => {
-                    return prevTasksList.map(list => {
-                        if (list.id === activeColumn.id) {
-                            return {
-                                ...list,
-                                tasks: activeTasks,
-                            };
-                        }
-                        if (list.id === overColumn.id) {
-                            return {
-                                ...list,
-                                tasks: overTasks,
-                            };
-                        }
-                        return list;
-                    });
-                });
+                const movedTask = activeColumn.tasks[activeTaskIndex];
+                activeColumn.tasks.splice(activeTaskIndex, 1); // Remove from source column
+                overColumn.tasks.splice(overTaskIndex, 0, movedTask); // Insert into target column
+                updatedBoardList[activeColumnIndex] = {
+                    ...activeColumn,
+                    tasks: [...activeColumn.tasks],
+                };
+                updatedBoardList[overColumnIndex] = {
+                    ...overColumn,
+                    tasks: [...overColumn.tasks],
+                };
 
                 handleSwapTasks({
                     columns: columns,
                     userId: user.uid,
                     boardId: boardId,
-                    tasks: overTasks,
-                    columnId: overColumn.id,
-                    addedTask: movedTask
+                    tasksList: updatedBoardList,
+                    activeColumnId: activeColumn.id,
+                    overColumnId: overColumn.id,
+                    addedTask: movedTask,
+                    deletedTask: movedTask,
                 });
-                handleSwapTasks({
-                    columns: columns,
-                    userId: user.uid,
-                    boardId: boardId,
-                    tasks: activeTasks,
-                    columnId: activeColumn.id,
-                    removedTask: movedTask
-                });
+
 
                 return;
             }
+            const movedTask = activeColumn.tasks.splice(activeTaskIndex, 1)[0];
+            overColumn.tasks.splice(overTaskIndex, 0, movedTask);
+            // Update the boardList with the new task order
+            updatedBoardList[activeColumnIndex] = {
+                ...activeColumn,
+                tasks: [...activeColumn.tasks],
+            };
+            updatedBoardList[overColumnIndex] = {
+                ...overColumn,
+                tasks: [...overColumn.tasks],
+            };
 
-            const updTasks = arrayMove(activeTasks, activeIndex, overIndex)
-            handleSwapTasks({columns: columns, userId: user.uid, boardId: boardId, tasks: updTasks, columnId: activeColumn?.id})
-            setLocalTasksList((prevOldTasksList) => {
-                return prevOldTasksList.map((list) => {
-                    if (list.id === activeColumn.id) {
-                        return {
-                            ...list,
-                            tasks: updTasks,
-                        };
-                    }
-                    return list;
-                });
-            });
+            handleSwapTasks({
+                columns: columns,
+                userId: user.uid,
+                boardId: boardId,
+                tasksList: updatedBoardList,
+                activeColumnId: activeColumn.id,
+                overColumnId: overColumn.id
+            })
 
             return
         }
 
-        //
-        // if (isActiveATask && isOverAColumn) {
-        //     if (activeId === overId) return;
-        //     const activeColumn = localTasksList.find(list => list.tasks.some(task => task.id === active.id));
-        //     const overColumn = localTasksList.find(list => list.id === over.id);
-        //     if (!activeColumn || !overColumn) {
-        //         return;
-        //     }
-        //     if (JSON.stringify( activeColumn )== JSON.stringify(overColumn) ){
-        //         return;
-        //     }
-        //     const activeTasks = [...activeColumn.tasks]
-        //     const overTasks = [...overColumn.tasks];
-        //     if (JSON.stringify( activeTasks )== JSON.stringify(overTasks) ){
-        //         return;
-        //     }
-        //     const activeIndex = activeColumn.tasks.findIndex(task => task.id === active.id);
-        //     const movedTask = activeTasks.splice(activeIndex, 1)[0];
-        //     overTasks.splice(overTasks.length, 0, movedTask);
-        //     setLocalTasksList(prevTasksList => {
-        //         return prevTasksList.map(list => {
-        //             if (list.id === activeColumn.id) {
-        //                 return {
-        //                     ...list,
-        //                     tasks: activeTasks,
-        //                 };
-        //             }
-        //             if (list.id === over.id) {
-        //                 return {
-        //                     ...list,
-        //                     tasks: overTasks,
-        //                 };
-        //             }
-        //             return list;
-        //         });
-        //     });
-        //     handleSwapTasks({
-        //         columns: columns,
-        //         userId: user.uid,
-        //         boardId: boardId,
-        //         tasks: overTasks,
-        //         columnId: overColumn.id,
-        //         addedTask: movedTask,
-        //
-        //     });
-        //
-        //     handleSwapTasks({
-        //         columns: columns,
-        //         userId: user.uid,
-        //         boardId: boardId,
-        //         tasks: activeTasks,
-        //         columnId: activeColumn.id,
-        //         removedTask: movedTask,
-        //     });
-        //
-        //
-        // }
+
+        if (isActiveATask && isOverAColumn) {
+            if (activeId === overId) return;
+            const updatedBoardList = boardList.map(column => ({
+                ...column,
+                tasks: column.tasks.map(task => ({...task})),
+            }));
+
+            const activeColumnIndex = updatedBoardList.findIndex(column => column.tasks.some(task => task.id === activeId));
+            const overColumnIndex = updatedBoardList.findIndex(column => column.id === over.id);
+
+
+
+            const activeColumn = updatedBoardList[activeColumnIndex];
+            const overColumn = updatedBoardList[overColumnIndex];
+
+            const activeTaskIndex = activeColumn.tasks.findIndex(task => task.id === activeId);
+
+
+            if (!activeColumn || !overColumn) {
+                return;
+            }
+            if (JSON.stringify( activeColumn )== JSON.stringify(overColumn) ){
+                return;
+            }
+            const activeTasks = [...activeColumn.tasks]
+            const overTasks = [...overColumn.tasks];
+            if (JSON.stringify( activeTasks )== JSON.stringify(overTasks) ){
+                return;
+            }
+            const movedTask = activeColumn.tasks[activeTaskIndex];
+            activeColumn.tasks.splice(activeTaskIndex, 1); // Remove from source column
+            overColumn.tasks.splice(overColumn.tasks.length, 0, movedTask); // Insert into target column
+            updatedBoardList[activeColumnIndex] = {
+                ...activeColumn,
+                tasks: [...activeColumn.tasks],
+            };
+            updatedBoardList[overColumnIndex] = {
+                ...overColumn,
+                tasks: [...overColumn.tasks],
+            };
+            handleSwapTasks({
+                columns: columns,
+                userId: user.uid,
+                boardId: boardId,
+                tasksList: updatedBoardList,
+                activeColumnId: activeColumn.id,
+                overColumnId: overColumn.id,
+                addedTask: movedTask,
+                deletedTask: movedTask,
+            });
+
+
+            return;
+
+
+        }
     }
+
     return (
         <DndContext sensors={sensors}
 
@@ -300,7 +293,7 @@ export const Board: FC = () => {
                                         createPortal(<AnimatePresence>{isOpenedSideMenu &&
                                             <MobileSideMenu/>}</AnimatePresence>, document.body)
                                     }
-                                    <Columns columns={columns} tasksList={localTasksList}/>
+                                    <Columns columns={columns} tasksList={boardList}/>
                                     {createPortal(
                                         <DragOverlay dropAnimation={{
                                             duration: 100,

@@ -6,6 +6,7 @@ import {ColumnType} from "types/ColumnType.ts";
 import {TaskType} from "types/TaskType.ts";
 import {TasksListType} from "types/TasksListType.ts";
 
+
 let activeQueryFnCountColumns = 0;
 let activeQueryFnCountTasks = 0;
 export const boardApi = createApi({
@@ -392,6 +393,7 @@ export const boardApi = createApi({
 
                     return {data: "updated"};
                 } catch (err) {
+                    console.log(err)
                     throw new Error();
                 }
             },
@@ -413,42 +415,63 @@ export const boardApi = createApi({
             },
         }),
         swapTasks: builder.mutation({
-            async queryFn({boardId, tasks, userId, columnId, addedTask, removedTask}) {
+            async queryFn({boardId, tasksList, userId, activeColumnId, overColumnId, addedTask, deletedTask}) {
                 try {
                     const batch = writeBatch(db);
-                    const collectionRef = collection(db, `users/${userId}/boards/${boardId}/columns/${columnId}/tasks`);
                     const boardRef = doc(db, `users/${userId}/boards/${boardId}`);
-                    const colRef = doc(db, `users/${userId}/boards/${boardId}/columns/${columnId}`);
-                    if (addedTask){
-                        const addedDocRef = doc(collectionRef, addedTask.id);
-                        batch.set(addedDocRef, { ...addedTask, order: tasks.length });
-                        batch.update(colRef, {hasTasks:true})
+                    if (activeColumnId == overColumnId){
+                        const colRef = collection(db, `users/${userId}/boards/${boardId}/columns/${activeColumnId}/tasks`);
+                        const batch = writeBatch(db);
+                        const tasks = tasksList.find((column:ColumnType) => column.id === activeColumnId).tasks
+                        tasks.forEach((task: TaskType, index: number) => {
+                            const docRef = doc(colRef, task.id);
+                            batch.update(docRef, {order: index});
+                        });
+                        batch.update(boardRef, {date: Date.now()});
+
+
                     }
-                    else if (removedTask){
-                        const removedDocRef = doc(collectionRef, removedTask.id);
-                        batch.delete(removedDocRef);
+                    else{
+                        if (addedTask){
+                            const collectionRef = collection(db, `users/${userId}/boards/${boardId}/columns/${overColumnId}/tasks`);
+                            const colRef = doc(db, `users/${userId}/boards/${boardId}/columns/${overColumnId}`);
+                            const tasks = tasksList.find((column:ColumnType) => column.id === overColumnId).tasks
+                            const addedDocRef = doc(collectionRef, addedTask.id);
+                            batch.set(addedDocRef, { ...addedTask, order: tasks.length });
+                            batch.update(colRef, {hasTasks:true})
+                             tasks.forEach((task: TaskType, index: number) => {
+                                const docRef = doc(collectionRef, task.id);
+                               batch.update(docRef, {order: index});
+                             });
+                        }
+                        if (deletedTask){
+                            const collectionRef = collection(db, `users/${userId}/boards/${boardId}/columns/${activeColumnId}/tasks`);
+                            const tasks = tasksList.find((column:ColumnType) => column.id === activeColumnId).tasks
+                            const removedDocRef = doc(collectionRef, deletedTask.id);
+                            batch.delete(removedDocRef);
+                            tasks.forEach((task: TaskType, index: number) => {
+                                const docRef = doc(collectionRef, task.id);
+                                batch.update(docRef, {order: index});
+                            });
+                        }
                     }
-                    tasks.forEach((task: TaskType, index: number) => {
-                        const docRef = doc(collectionRef, task.id);
-                        batch.update(docRef, {order: index});
-                    });
+
+
+
                     batch.update(boardRef, {date: Date.now()});
-                    await batch.commit().finally(() => activeQueryFnCountTasks--);
+                    await batch.commit();
+
                     return {data: "updated"};
                 } catch (err) {
-                 console.log(err)
+
                     throw new Error();
                 }
             },
-            onQueryStarted({columns,boardId, userId, tasks, columnId }, {dispatch, queryFulfilled}) {
+            onQueryStarted({columns,boardId, userId, tasksList }, {dispatch, queryFulfilled}) {
                 const patchResult = dispatch(
                     boardApi.util.updateQueryData('getTasksList', {userId,boardId, columns}, (draft:TasksListType[]) => {
-                       const boardTasks =  draft.find(tasks => tasks.id === columnId)
-                        console.log(boardTasks?.tasks)
-                        if (boardTasks?.tasks){
-                         Object.assign (boardTasks.tasks, tasks)
-                        }
-						console.log("i triggered")
+                      Object.assign(draft,tasksList )
+
                     })
                 );
                 const patchResultBoard = dispatch(
