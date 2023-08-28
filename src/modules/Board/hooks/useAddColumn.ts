@@ -29,7 +29,6 @@ export const useAddColumn = () => {
         }
         const newColumnData = {
             ...data,
-            hasTasks:false
 
         };
 

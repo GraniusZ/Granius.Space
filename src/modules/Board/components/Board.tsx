@@ -296,7 +296,7 @@ export const Board: FC = () => {
                                     <Columns columns={columns} tasksList={boardList}/>
                                     {createPortal(
                                         <DragOverlay dropAnimation={{
-                                            duration: 100,
+                                            duration: 0,
                                             easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
                                         }}>
                                             {(activeIdDnd && activeColumn) && (
