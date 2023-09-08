@@ -9,9 +9,11 @@ import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
 import {setBoardInfo, setDeleteConfirmation, setStatus} from "@store/slices/boardMenuSlice.ts";
 import {NetworkError} from "@modules/NetworkError";
 import {setSideMenu} from "@store/slices/boardPageSlice.ts";
+import {TaskInfo} from "@modules/TaskInfo/components/TaskInfo.tsx";
 
 export const BoardPage: FC = () => {
     const isBoardInfoOpened = useAppSelector((state) => state.boardMenu.openedBoardInfo)
+    const isTaskInfoOpened = useAppSelector((state) => state.boardPage.taskInfo)
 
     const location = useLocation();
     const dispatch = useAppDispatch();
@@ -30,15 +32,15 @@ export const BoardPage: FC = () => {
                 createPortal(<AnimatePresence>{isBoardInfoOpened &&
                     <BoardInfo/>}</AnimatePresence>, document.body)
             }
+            {
+                createPortal(isTaskInfoOpened &&
+                    <TaskInfo/>, document.body)
+            }
+            {
+                createPortal(<AnimatePresence>{!isOnline &&
+                    <NetworkError/>}</AnimatePresence>, document.body)
+            }
 
-            {
-                createPortal(<AnimatePresence>{!isOnline &&
-                    <NetworkError/>}</AnimatePresence>, document.body)
-            }
-            {
-                createPortal(<AnimatePresence>{!isOnline &&
-                    <NetworkError/>}</AnimatePresence>, document.body)
-            }
 
         </div>
 

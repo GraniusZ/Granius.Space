@@ -26,7 +26,7 @@ export const ColumnOverlay: FC<ColumnOverlayType> = ({column}) => {
     }, [tasks]);
     return (
         <div
-            className=" h-full  min-h-full sm:min-w-[300px] sm:w-[300px] min-w-full w-full ">
+            className="h-full  min-w-[250px] w-[250px] sm:min-w-[300px] sm:w-[300px] ">
             <div
                 className=" z-10  noSelect  py-4 flex flex-col justify-center w-full gap-4 rounded-lg ellipsis relative overflow-visible float-left bg-main-1 max-h-full ">
                 <div className="w-full h-fit flex flex-row items-center min-w-full z-50 px-3">
@@ -63,7 +63,7 @@ export const ColumnOverlay: FC<ColumnOverlayType> = ({column}) => {
                         className=" py-2 group/task noSelect cursor-pointer relative flex justify-center items-center h-fit"
                     >
                              <span
-                                 className="h-full w-full text-sm flex items-center text-main-1 brightness-75 font-bold break-words group-hover/task:text-main-7 group-hover/task:opacity-80 group-hover/task:brightness-150 noSelect transition-all duration-300 ease-in-out px-3">Add
+                                 className="h-full w-full text-sm flex items-center text-main-1 brightness-75 font-bold break-words  noSelect transition-all duration-300 ease-in-out px-3">Add
                             New Task
                         </span>
 

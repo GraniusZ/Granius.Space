@@ -1,7 +1,6 @@
-import {FC, useEffect} from "react";
+import {FC, useEffect, KeyboardEvent} from "react";
 import {useForm} from "react-hook-form";
-
-
+import TextareaAutosize from 'react-textarea-autosize';
 import {useAddTask} from "@modules/Board/hooks/useAddTask.ts";
 import {ColumnType} from "types/ColumnType.ts";
 import {TaskType} from "types/TaskType.ts";
@@ -38,12 +37,17 @@ export const AddNewTask: FC<AddNewTask> = ({tasks, columnId}) => {
         setFocus("title")
     }, [setFocus, handleAdd])
     const ref = useClickOutside(handleCloseAddTask);
-
+    const submitOnEnter = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            handleSubmit(submit)();
+        }
+    };
     return (
         (activeColumn.id === columnId) && (
             <div className="w-full text-sm h-fit z-10 bg-main-1 flex items-center flex-col gap-2 " ref={ref}>
                 <form className="w-full items-center bg-main-1 justify-start flex flex-col relative mx-6  h-fit box-border gap-3" onSubmit={handleSubmit(submit)}>
-                    <input
+                    <TextareaAutosize
                         autoFocus
                         {...register("title", {
                             required: {
@@ -52,8 +56,8 @@ export const AddNewTask: FC<AddNewTask> = ({tasks, columnId}) => {
                             },
 
                         })}
-
-                        className={` overflow-hidden resize-none outline-0 h-fit w-full  rounded-sm bg-main-3  p-4 px-3 pr-10 z-10 shadow-xl group/task noSelect cursor-pointer border-main-7 border text-sm placeholder:text-main-2 text-main-1 font-bold break-words noSelect brightness-125`}
+                        onKeyDown={submitOnEnter}
+                        className={`max-h-[400px] overflow-y-auto resize-none outline-0 h-fit w-full  rounded-sm bg-main-3  p-4 px-3 pr-10 z-10 shadow-xl group/task noSelect cursor-pointer border-main-7 border text-sm placeholder:text-main-2 text-main-1 font-bold break-words noSelect brightness-125`}
                         placeholder={"Enter your task "}
 
 

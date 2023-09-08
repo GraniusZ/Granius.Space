@@ -2,11 +2,14 @@ import {FC} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import {TaskType} from "types/TaskType.ts";
+import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
+import {setTaskInfo, setTaskInfoContent} from "@store/slices/boardPageSlice.ts";
 type Task = {
     task:TaskType,
     id:string
 }
 export const Task: FC<Task> = ({task, id}) => {
+    const dispatch = useAppDispatch()
     const {
         attributes,
         listeners,
@@ -29,9 +32,13 @@ export const Task: FC<Task> = ({task, id}) => {
         willChange: "transform",
 
     };
+    const handleClickOpenTask = () =>{
+        dispatch(setTaskInfo(true))
+        dispatch(setTaskInfoContent(task.id))
+    }
     return (
 
-        <div className="rounded-sm bg-main-3 py-4 px-3 pr-10 z-10 ellipsis group/task  noSelect cursor-pointer border-main-7 border flex h-fit"   ref={setNodeRef}
+        <div className="rounded-sm bg-main-3 h-[60px] min-h-[60px] py-4 px-3 pr-10 z-10 ellipsis group/task  noSelect cursor-pointer border-main-7 border flex items-center justify-center"  onClick={handleClickOpenTask} ref={setNodeRef}
              {...attributes}
              {...listeners}
              style={style}>

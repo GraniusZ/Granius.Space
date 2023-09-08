@@ -51,33 +51,24 @@ export const Columns: FC<Columns> = memo(({columns, tasksList}) => {
     return (
 
         <div
-            className="absolute w-full h-full overflow-y-hidden  min-h-full flex top-0 left-0  bg-main-2 px-5  overflow-x-scroll flex-row gap-6 sm:gap-8 pt-6 pb-8 ">
+            className="absolute w-full h-full overflow-y-hidden  min-h-full flex top-0 left-0  bg-main-2 px-5  overflow-x-scroll scroll-smooth flex-row gap-6 sm:gap-12 pt-6 pb-8 ">
 
             <SortableContext
                 items={columnsId}
                 strategy={horizontalListSortingStrategy}
 
-            >  {columns.map((column: ColumnType, index: number) => (
-                <div
-                    className="flex-row flex gap-6 sm:gap-8 min-w-full w-full sm:min-w-fit sm:w-fit h-full "
-                    key={column.id}>
-
+            >  {columns.map((column: ColumnType,) => (
                     <Column
+                        key={column.id}
                         id={column.id}
                         column={column}
                         tasksList={tasksList}/>
-
-
-                    {index != columns.length &&
-                        <hr className="hidden sm:block h-full min-h-full min-w-[3px]  w-[3px] bg-main-7 m-0 border-0 "/>}
-
-                </div>
 
             ))}
                 <div
                     className="  !whitespace-nowrap text-lg font-semibold text-main-1 min-w-[300px] w-[300px] snap-center relative flex justify-start box-border px-6 pr overflow-y-hidden  noSelect"
                     onClick={handleAddColumn} ref={addNewColumnRef}>
-                    <div className="w-full h-fit relative flex items-center mt-10 cursor-pointer " ref={ref}>
+                    <div className="w-full h-fit relative flex items-center mt-4 cursor-pointer " ref={ref}>
                             <span
                                 className="hover:text-main-3 duration-200 transition-all ease-in-out">Add New Column</span>
 

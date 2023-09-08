@@ -102,7 +102,7 @@ export const Column: FC<ColumnCompType> = memo(({column, id, tasksList}) => {
             {...attributes}
             {...listeners}
             style={style}
-            className=" h-full  min-h-full sm:min-w-[300px] sm:w-[300px] min-w-full w-full ">
+            className=" h-full  min-w-[250px] w-[250px] sm:min-w-[300px] sm:w-[300px] ">
             <div
                 className=" z-10  noSelect  py-4 flex flex-col justify-center w-full gap-4 rounded-lg ellipsis relative overflow-visible float-left bg-main-1 max-h-full ">
                 <div className="w-full h-fit flex flex-row items-center min-w-full z-50 px-3">
@@ -124,19 +124,24 @@ export const Column: FC<ColumnCompType> = memo(({column, id, tasksList}) => {
                 </div>
 
 
-                <div className=" justify-start bg-main-1 gap-6  flex flex-col flex-1 overflow-y-auto h-fit px-3 "
+                <div
+                    className=" justify-start bg-main-1 gap-6  flex flex-col  overflow-y-scroll shrink h-fit flex-grow px-3  "
                      onClick={handleClickOnCol}>
                     <SortableContext items={tasks} strategy={rectSortingStrategy}>
                         {tasks.map((task: TaskType) =>
                             (
+
                                 <Task key={task.id} task={task} id={task.id}/>
+
+
                             ))}
                     </SortableContext>
 
                 </div>
 
 
-                <div className="w-full  z-10 px-3  ">     {(!isAddTaskOpened || activeColumn.id != column.id) ?
+                <div
+                    className="w-full  z-10 px-3 max-h-full  ">     {(!isAddTaskOpened || activeColumn.id != column.id) ?
                     <div
                         className=" py-2 group/task noSelect cursor-pointer relative flex justify-center items-center h-fit"
                         onClick={handleOpenAddTask}>

@@ -1,5 +1,4 @@
 import {FC} from "react";
-import {ReactComponent as AddIcon} from "@assets/icons/AddIcon.svg";
 import {ReactComponent as LeftArrowIcon} from "@assets/icons/LeftArrowIcon.svg";
 import {ReactComponent as CloseIcon} from "@assets/icons/CloseIcon.svg";
 import {Link} from "react-router-dom";
@@ -41,13 +40,7 @@ export const MobileSideMenu: FC = () => {
                             className="w-full h-full absolute rounded-lg opacity-60 group-hover:bg-main-1 transition-all duration-200 ease-in-out"
                         ></div>
                     </Link>
-                    <button
-                        className="mx-1 p-2 relative flex justify-center rounded-lg border-main-4 bg-main-2  active:scale-105 items-center group transition-all duration-200 ease-in-out">
-                        <AddIcon className="w-[25px] h-[25px]  z-20"/>
-                        <div
-                            className="w-full h-full absolute rounded-lg opacity-60 group-hover:bg-main-1 transition-all duration-200 ease-in-out"
-                        ></div>
-                    </button>
+
 
                     <button
                         className="mx-1 p-2 relative flex justify-center rounded-lg border-main-4 bg-main-2  active:scale-105 items-center group transition-all duration-200 ease-in-out"

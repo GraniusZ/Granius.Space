@@ -22,6 +22,7 @@ import {
     setColumnTitleInput
 } from "@store/slices/boardPageSlice.ts";
 import {
+    closestCenter,
     DndContext,
     DragEndEvent,
     DragOverEvent,
@@ -45,7 +46,7 @@ export const Board: FC = () => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(setActiveId(board.id))
-    }, [activeId, dispatch])
+    }, [activeId, dispatch, board.id])
     usePageTitle(board?.title);
     const user = useAppSelector((state) => state.user.user);
     const boardId = useAppSelector((state) => state.boardMenu.activeId);
@@ -53,7 +54,6 @@ export const Board: FC = () => {
     const [handleSwapTasks] = useSwapTasksMutation()
     const {data: tasksList} = useGetTasksListQuery({userId: user?.uid, boardId: boardId, columns: columns}, {skip: !columns || !user.uid || !boardId})
     const boardList = tasksList || []
-
     const activeColumn = useAppSelector((state) => state.boardPage.activeColumn);
     const activeTask = useAppSelector((state) => state.boardPage.activeTask);
 
@@ -189,7 +189,6 @@ export const Board: FC = () => {
             }
             const movedTask = activeColumn.tasks.splice(activeTaskIndex, 1)[0];
             overColumn.tasks.splice(overTaskIndex, 0, movedTask);
-            // Update the boardList with the new task order
             updatedBoardList[activeColumnIndex] = {
                 ...activeColumn,
                 tasks: [...activeColumn.tasks],
@@ -221,15 +220,9 @@ export const Board: FC = () => {
 
             const activeColumnIndex = updatedBoardList.findIndex(column => column.tasks.some(task => task.id === activeId));
             const overColumnIndex = updatedBoardList.findIndex(column => column.id === over.id);
-
-
-
             const activeColumn = updatedBoardList[activeColumnIndex];
             const overColumn = updatedBoardList[overColumnIndex];
-
             const activeTaskIndex = activeColumn.tasks.findIndex(task => task.id === activeId);
-
-
             if (!activeColumn || !overColumn) {
                 return;
             }
@@ -241,9 +234,14 @@ export const Board: FC = () => {
             if (JSON.stringify( activeTasks )== JSON.stringify(overTasks) ){
                 return;
             }
+            const isTaskAlreadyInOverColumn = overColumn.tasks.some(task => task.id === activeId);
+
+            if (isTaskAlreadyInOverColumn) {
+                return;
+            }
             const movedTask = activeColumn.tasks[activeTaskIndex];
-            activeColumn.tasks.splice(activeTaskIndex, 1); // Remove from source column
-            overColumn.tasks.splice(overColumn.tasks.length, 0, movedTask); // Insert into target column
+            activeColumn.tasks.splice(activeTaskIndex, 1);
+            overColumn.tasks.splice(overColumn.tasks.length, 0, movedTask);
             updatedBoardList[activeColumnIndex] = {
                 ...activeColumn,
                 tasks: [...activeColumn.tasks],
@@ -262,8 +260,6 @@ export const Board: FC = () => {
                 addedTask: movedTask,
                 deletedTask: movedTask,
             });
-
-
             return;
 
 
@@ -272,7 +268,7 @@ export const Board: FC = () => {
 
     return (
         <DndContext sensors={sensors}
-
+                    collisionDetection={closestCenter}
                     onDragEnd={handleDragEnd}
                     onDragStart={handleDragStart}
                     onDragOver={handleDragOver}>

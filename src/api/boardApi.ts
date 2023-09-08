@@ -269,7 +269,6 @@ export const boardApi = createApi({
                 try {
                     const batch = writeBatch(db);
                     batch.delete(columnRef);
-
                     await batch.commit()
                     return {data: "updated"};
                 } catch (err) {
@@ -344,7 +343,7 @@ export const boardApi = createApi({
                     await batch.commit();
                     return {data: "updated"};
                 } catch (err) {
-                    console.log(err)
+
                     throw new Error();
                 }
             },
@@ -359,7 +358,90 @@ export const boardApi = createApi({
                         }
 
                     })
+                );
+                const patchResultBoard = dispatch(
+                    boardApi.util.updateQueryData('getBoard', {boardId, userId}, (draft) => {
+                        draft.date = Date.now()
+                    })
+                );
 
+                queryFulfilled.catch(() => {
+                    patchResult.undo;
+                    patchResultBoard.undo
+                });
+            },
+        }),
+        changeTaskTitle: builder.mutation({
+            async queryFn({newTitle, userId, boardId, columnId, taskId}) {
+                const boardRef = doc(db, `users/${userId}/boards/${boardId}`);
+                const taskRef = doc(db, `users/${userId}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`);
+                const batch = writeBatch(db);
+                batch.update(taskRef, {title: newTitle});
+                batch.update(boardRef, {date: Date.now()});
+                try {
+
+                    await batch.commit();
+                    return {data: "updated"};
+                } catch (err) {
+                    throw new Error();
+                }
+            },
+            onQueryStarted({newTitle, boardId, userId, columnId, taskId, columns}, {
+                dispatch, queryFulfilled
+            }) {
+                const patchResult = dispatch(
+                    boardApi.util.updateQueryData('getTasksList', {
+                        boardId,
+                        userId,
+                        columns
+                    }, (draft: TasksListType[]) => {
+                        const taskToUpdate = draft.find(column => column.id === columnId)?.tasks.find(task => task.id === taskId);
+                        if (taskToUpdate) {
+                            taskToUpdate.title = newTitle;
+                        }
+
+                    })
+                );
+                const patchResultBoard = dispatch(
+                    boardApi.util.updateQueryData('getBoard', {boardId, userId}, (draft) => {
+                        draft.date = Date.now()
+                    })
+                );
+
+                queryFulfilled.catch(() => {
+                    patchResult.undo;
+                    patchResultBoard.undo
+                });
+            },
+        }),
+        removeTask: builder.mutation({
+            async queryFn({userId, boardId, columnId, taskId}) {
+                const boardRef = doc(db, `users/${userId}/boards/${boardId}`);
+                const taskRef = doc(db, `users/${userId}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`);
+                const batch = writeBatch(db);
+                batch.delete(taskRef)
+                batch.update(boardRef, {date: Date.now()});
+                try {
+
+                    await batch.commit();
+                    return {data: "updated"};
+                } catch (err) {
+                    throw new Error();
+                }
+            },
+            onQueryStarted({boardId, userId, taskId, columns}, {
+                dispatch, queryFulfilled
+            }) {
+                const patchResult = dispatch(
+                    boardApi.util.updateQueryData('getTasksList', {
+                        boardId,
+                        userId,
+                        columns
+                    }, (draft: TasksListType[]) => {
+                        draft.forEach(column => {
+                            column.tasks = column.tasks.filter(task => task.id !== taskId);
+                        });
+                    })
                 );
                 const patchResultBoard = dispatch(
                     boardApi.util.updateQueryData('getBoard', {boardId, userId}, (draft) => {
@@ -490,5 +572,11 @@ export const {
     useChangeTitleMutation,
     useChangeStatusMutation,
     useAddColumnMutation,
-    useDeleteColumnMutation, useAddTaskMutation, useChangeTitleColumnMutation, useSwapColumnsMutation, useSwapTasksMutation
+    useRemoveTaskMutation,
+    useDeleteColumnMutation,
+    useAddTaskMutation,
+    useChangeTitleColumnMutation,
+    useSwapColumnsMutation,
+    useSwapTasksMutation,
+    useChangeTaskTitleMutation
 } = boardApi;

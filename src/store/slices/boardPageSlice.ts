@@ -9,7 +9,10 @@ const initialState: BoardPageSliceType = {
     columnSettings:false,
     activeColumn:{},
     addTask:false,
-    activeTask:{}
+    activeTask: {},
+    taskInfo: false,
+    taskInfoContentId: '',
+    titleTaskChange: false
 
 }
 export const boardPageSlice = createSlice({
@@ -40,11 +43,20 @@ export const boardPageSlice = createSlice({
         setActiveTask:(state, action) => {
             state.activeTask= action.payload
         },
+        setTaskInfo: (state, action) => {
+            state.taskInfo = action.payload
+        },
+        setTaskInfoContent: (state, action) => {
+            state.taskInfoContentId = action.payload
+        },
+        setTitleTaskChange: (state, action) => {
+            state.titleTaskChange = action.payload
+        },
 
 
     }
 })
 
-export const {setTitleInput, setSideMenu, setAddColumn, setColumnSettings, setActiveColumn, setAddTask, setColumnTitleInput, setActiveTask} = boardPageSlice.actions;
+export const {setTitleInput, setSideMenu, setAddColumn, setColumnSettings, setActiveColumn, setAddTask, setColumnTitleInput, setActiveTask, setTaskInfo, setTaskInfoContent, setTitleTaskChange} = boardPageSlice.actions;
 
 export const boardPageReducer = boardPageSlice.reducer;
