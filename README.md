@@ -1,4 +1,4 @@
-### !Master branch current broken
+## The project is currently under development, so some features do not work or do not work as intended!(For example, changing and deleting tasks is still under development)
 
 # Granius.Space
 
