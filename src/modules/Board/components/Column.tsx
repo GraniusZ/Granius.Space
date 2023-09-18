@@ -41,7 +41,7 @@ export const Column: FC<ColumnCompType> = memo(({column, id, tasksList}) => {
     });
 
     const style = {
-        transform: CSS.Translate.toString(transform),
+        transform: CSS.Transform.toString(transform),
         transition,
         opacity: isDragging ? 0.5 : 1,
         willChange: "transform",

@@ -1,4 +1,4 @@
-import {FC, memo, useEffect, useMemo, useRef} from "react";
+import {FC, memo, useEffect, useRef} from "react";
 import {ColumnType} from "types/ColumnType.ts";
 import {Column} from "@modules/Board/components/Column.tsx";
 import {useAppDispatch} from "@hooks/useTypedDispatch.ts";
@@ -44,17 +44,14 @@ export const Columns: FC<Columns> = memo(({columns, tasksList}) => {
             dispatch(setAddColumn(false))
         }
     }
-    const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
     const ref = useClickOutside(handleCloseAddColumn)
-
-
     return (
 
         <div
             className="absolute w-full h-full overflow-y-hidden  min-h-full flex top-0 left-0  bg-main-2 px-5  overflow-x-scroll scroll-smooth flex-row gap-6 sm:gap-12 pt-6 pb-8 ">
 
             <SortableContext
-                items={columnsId}
+                items={columns}
                 strategy={horizontalListSortingStrategy}
 
             >  {columns.map((column: ColumnType,) => (

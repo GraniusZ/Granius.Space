@@ -32,17 +32,17 @@ export const TaskInfo: FC = memo(() => {
             className="top-0  bottom-0 w-screen h-screen flex justify-center items-center font-mono absolute z-50 overflow-hidden">
             <div
                 className="sm:max-h-[90%] h-full w-full max-w-2xl bg-main-1 absolute z-50  sm:mx-10 sm:rounded-xl flex flex-col  px-8 pb-16">
-                <div className="h-fit w-full sticky flex justify-end top-3 ">
+                <div className="h-fit w-full sticky flex justify-end mt-4 ">
                     <div onClick={handleClose}
                          className="w-8 h-8  noSelect flex justify-center items-center cursor-pointer "
                     >
-                        <CloseIcon className="w-4 h-4  "/>
+                        <CloseIcon className="w-6 h-6  "/>
                     </div>
                 </div>
                 <div className="h-fit w-full flex justify-between flex-col items-center relative gap-4  overflow-y-auto">
 
                     {isTitleTaskChangeOpen ? <TaskTitleChange title={task?.title} task={task}/> : (<span
-                        className=" w-full cursor-pointer text-main-4 break-words font-semibold pr-10 text-sm brightness-150"
+                        className=" w-full cursor-pointer text-main-4 break-words font-semibold pr-12 pb-16 pl-2 py-2 text-sm brightness-150"
                         onClick={handleOpenTitleChange}>
                   {task?.title}</span>)}
 

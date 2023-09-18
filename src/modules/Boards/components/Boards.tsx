@@ -22,11 +22,11 @@ export const Boards: FC = memo(function () {
                     <div className=" md:hidden visible top-0 bottom-0 h-fit my-auto left-1 absolute noSelect">
                         <Burger onClick={handleChangeOpened}/>
                     </div>
-                    <span className="px-4 py-2 h-full ml-[50px] md:ml-0">Boards</span></div>
+                    <span className="px-4 py-2 h-full ml-[50px] md:ml-0 noSelect">Boards</span></div>
                 <div
                     className="w-full h-full relative bg-main-2 overflow-scroll overflow-x-auto z-[-50px]">
+                    {localBoards.length ? <Table boards={localBoards}/> :<div className="w-full h-full flex justify-center items-center text-xl md:text-2xl text-main-1 brightness-125 noSelect cursor-default">Create your first board</div> }
 
-                    <Table boards={localBoards}/>
                 </div>
 
 

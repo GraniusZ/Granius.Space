@@ -53,7 +53,7 @@ export const TaskTitleChange: FC<TitleChangeType> = ({title, task}) => {
             setDeleteTimer(newTimer);
             return;
         }
-        await changeTitle({newTitle: data.title, userId: user.uid, boardId: activeId, columns: columns, taskId: task?.id, columnId:columnId })
+        await Promise.all([changeTitle({newTitle: data.title, userId: user.uid, boardId: activeId, columns: columns, taskId: task?.id, columnId:columnId }), dispatch(setTitleTaskChange(false))])
 
     }
     const submitOnEnter = (event: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -70,7 +70,7 @@ export const TaskTitleChange: FC<TitleChangeType> = ({title, task}) => {
                       onSubmit={handleSubmit(submit)}>
 
                     <TextareaAutosize
-                        className={`text-sm resize-none bg-main-1 w-full text-main-7  !font-semibold   z-30 placeholder:text-main-4 box-border outline-0 `}
+                        className={`text-sm resize-none bg-main-1 w-full text-main-7  !font-semibold  pb-16 px-2 py-2 z-30 placeholder:text-main-4 box-border outline-0 `}
                         {...register("title", {
                             required: {
                                 value: true,
